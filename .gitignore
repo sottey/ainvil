@@ -42,3 +42,6 @@ Icon?
 # OS junk
 Thumbs.db
 Desktop.ini
+
+# sensitive files
+config.json
