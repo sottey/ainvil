@@ -1,12 +1,18 @@
 package limitless
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+	"net/url"
 	"time"
 
 	"github.com/sottey/ainvil/lib/clientiface"
 	"github.com/sottey/ainvil/lib/model"
 )
+
+const baseURL = "https://api.limitless.ai/v1/lifelogs"
 
 type Client struct {
 	token string
@@ -21,26 +27,86 @@ func (c *Client) Name() string {
 }
 
 func (c *Client) GetEntries(startDate, endDate string) ([]model.Entry, error) {
-	// TODO: Replace with real API call using c.token
-	// Simulate fake data for now
-	start, _ := time.Parse("2006-01-02", startDate)
-	end, _ := time.Parse("2006-01-02", endDate)
+	var all []model.Entry
+	cursor := ""
 
-	var entries []model.Entry
-	for d := start; !d.After(end); d = d.AddDate(0, 0, 1) {
-		entries = append(entries, model.Entry{
-			ID:        fmt.Sprintf("limitless-%s", d.Format("20060102")),
-			Source:    "limitless",
-			Timestamp: d,
-			Content:   fmt.Sprintf("Simulated Limitless log for %s", d.Format("Jan 2 2006")),
-		})
+	for {
+		reqURL, err := url.Parse(baseURL)
+		if err != nil {
+			return nil, fmt.Errorf("invalid URL: %w", err)
+		}
+
+		q := reqURL.Query()
+		q.Set("start", startDate)
+		q.Set("end", endDate)
+		q.Set("includeMarkdown", "true")
+		q.Set("includeHeadings", "true")
+		q.Set("limit", "25")
+		if cursor != "" {
+			q.Set("cursor", cursor)
+		}
+		reqURL.RawQuery = q.Encode()
+
+		req, err := http.NewRequest("GET", reqURL.String(), nil)
+		if err != nil {
+			return nil, err
+		}
+		req.Header.Set("X-API-Key", c.token)
+
+		resp, err := http.DefaultClient.Do(req)
+		if err != nil {
+			return nil, err
+		}
+		defer resp.Body.Close()
+
+		if resp.StatusCode != http.StatusOK {
+			body, _ := io.ReadAll(resp.Body)
+			return nil, fmt.Errorf("limitless API error (%d): %s", resp.StatusCode, string(body))
+		}
+
+		var parsed struct {
+			Data struct {
+				Lifelogs []struct {
+					ID        string `json:"id"`
+					Markdown  string `json:"markdown"`
+					StartTime string `json:"startTime"`
+					Title     string `json:"title"`
+				} `json:"lifelogs"`
+			} `json:"data"`
+			Meta struct {
+				Lifelogs struct {
+					NextCursor string `json:"nextCursor"`
+				} `json:"lifelogs"`
+			} `json:"meta"`
+		}
+
+		if err := json.NewDecoder(resp.Body).Decode(&parsed); err != nil {
+			return nil, err
+		}
+
+		for _, l := range parsed.Data.Lifelogs {
+			t, _ := time.Parse(time.RFC3339, l.StartTime)
+			all = append(all, model.Entry{
+				ID:        l.ID,
+				Source:    "limitless",
+				Timestamp: t,
+				Content:   l.Markdown,
+				Metadata: map[string]string{
+					"title": l.Title,
+				},
+			})
+		}
+
+		cursor = parsed.Meta.Lifelogs.NextCursor
+		if cursor == "" {
+			break
+		}
 	}
 
-	return entries, nil
+	return all, nil
 }
 
 func (c *Client) GetAllEntries() ([]model.Entry, error) {
-	// TODO: Pull all entries (paginate if needed)
-	// For now, simulate 3 days of logs
-	return c.GetEntries("2025-06-01", "2025-06-03")
+	// Pass a very wide date range — adjust as needed
+	return c.GetEntries("2000-01-01", time.Now().Format("2006-01-02"))
 }
