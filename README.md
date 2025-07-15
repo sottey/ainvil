@@ -17,6 +17,20 @@ It supports merging different export formats into a consistent JSON structure fo
 
 ---
 
+## 🗂️ Getting source data
+
+**LIMITLESS**
+
+> For the limitless pendant, it is easy. Just use Ainvil to connect to the API using the baseurl and your API token
+
+**OMI**
+> The Omi is a bit more involved. You can export a number of ways, but the most efficient I have found is to subscribe to the Google Drive plugin and just grab the source files from there. I am sure there are better, more efficient ways (especially is you use your own backend) are out there, please share your ideas!
+
+**BEE**
+> The Bee is the most tedious. You have to go into each day, click into each transcript, then choose "Save To File" and save it somewhere. for simplicity you can just save them to an iCloud drive, so you can grab them on your computer. Not ideal, but works for now
+
+---
+
 ## 📦 Folder Structure
 
 ```
