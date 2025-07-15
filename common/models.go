@@ -29,6 +29,31 @@ type ContentBlock struct {
 }
 
 type PendantExport struct {
+	ID            string          `json:"id"`
+	SourceType    string          `json:"sourceType"`
+	StartTime     string          `json:"startTime"`
+	EndTime       string          `json:"endTime"`
+	DeviceType    string          `json:"deviceType,omitempty"`
+	Latitude      string          `json:"latitude,omitempty"`
+	Longitude     string          `json:"longitude,omitempty"`
+	Address       string          `json:"address,omitempty"`
+	Title         string          `json:"title"`
+	Overview      string          `json:"overview"`
+	Transcript    string          `json:"transcript"`
+	Contents      []ContentBlock  `json:"contents"`
+	ExportDate    string          `json:"exportDate"`
+	ExportVersion string          `json:"exportVersion"`
+	SourceFile    string          `json:"sourceFile"`
+	Raw           json.RawMessage `json:"raw"`
+}
+
+/*
+type ContentBlock struct {
+	Type    string `json:"type"`
+	Content string `json:"content"`
+}
+
+type PendantExport struct {
 	ID         string `json:"id"`
 	SourceType string `json:"sourceType"`
 	StartTime  string `json:"startTime"`
@@ -49,6 +74,7 @@ type PendantExport struct {
 
 	Raw json.RawMessage `json:"raw"`
 }
+*/
 
 type LimitlessApiResponse struct {
 	Data struct {
@@ -68,19 +94,14 @@ type LimitlessLifeLog struct {
 	Transcript string `json:"transcript"`
 }
 
-/*
 type BeeParsed struct {
 	StartTime          string
 	EndTime            string
+	DeviceType         string
 	ShortSummary       string
 	SummaryLines       []string
 	TranscriptionLines []string
+	Latitude           string
+	Longitude          string
+	Address            string
 }
-
-type OmiParsed struct {
-	Timestamp       string
-	Title           string
-	Overview        string
-	TranscriptLines []string
-}
-*/

@@ -23,11 +23,14 @@ package common
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
+// ParseBeeFile reads a Bee pendant export and normalizes time to RFC3339
 func ParseBeeFile(path string) (*PendantExport, error) {
 	file, err := os.Open(path)
 	if err != nil {
@@ -37,9 +40,13 @@ func ParseBeeFile(path string) (*PendantExport, error) {
 
 	var startTime string
 	var endTime string
+	var deviceType string
 	var shortSummary string
 	var summaryLines []string
 	var transcriptionLines []string
+	var latitude string
+	var longitude string
+	var address string
 
 	section := ""
 
@@ -51,20 +58,43 @@ func ParseBeeFile(path string) (*PendantExport, error) {
 		}
 
 		switch {
-		case strings.HasPrefix(line, "Start: "):
-			startTime = strings.TrimSpace(strings.TrimPrefix(line, "Start: "))
-		case strings.HasPrefix(line, "End: "):
-			endTime = strings.TrimSpace(strings.TrimPrefix(line, "End: "))
-		case strings.HasPrefix(line, "Short Summary: "):
-			shortSummary = strings.TrimSpace(strings.TrimPrefix(line, "Short Summary: "))
+		case strings.HasPrefix(line, "Start Time: "):
+			raw := strings.TrimSpace(strings.TrimPrefix(line, "Start Time: "))
+			startTime = parseBeeTimestamp(raw)
+
+		case strings.HasPrefix(line, "End Time: "):
+			raw := strings.TrimSpace(strings.TrimPrefix(line, "End Time: "))
+			endTime = parseBeeTimestamp(raw)
+
+		case strings.HasPrefix(line, "Device Type:"):
+			deviceType = strings.TrimSpace(strings.TrimPrefix(line, "Device Type:"))
+
+		case strings.HasPrefix(line, "Short Summary:"):
+			shortSummary = strings.TrimSpace(strings.TrimPrefix(line, "Short Summary:"))
+
 		case line == "Summary:":
 			section = "summary"
+
 		case line == "Transcription:":
 			section = "transcription"
+
+		case strings.HasPrefix(line, "Primary Location:"):
+			section = "location"
+
+		case strings.HasPrefix(line, "Latitude:"):
+			latitude = strings.TrimSpace(strings.TrimPrefix(line, "Latitude:"))
+
+		case strings.HasPrefix(line, "Longitude:"):
+			longitude = strings.TrimSpace(strings.TrimPrefix(line, "Longitude:"))
+
+		case strings.HasPrefix(line, "bAddress:"):
+			address = strings.TrimSpace(strings.TrimPrefix(line, "bAddress:"))
+
 		default:
-			if section == "summary" {
+			switch section {
+			case "summary":
 				summaryLines = append(summaryLines, line)
-			} else if section == "transcription" {
+			case "transcription":
 				transcriptionLines = append(transcriptionLines, line)
 			}
 		}
@@ -74,9 +104,38 @@ func ParseBeeFile(path string) (*PendantExport, error) {
 		return nil, fmt.Errorf("scanning file: %v", err)
 	}
 
+	// Construct raw parsed struct
+	parsed := struct {
+		StartTime          string
+		EndTime            string
+		DeviceType         string
+		ShortSummary       string
+		SummaryLines       []string
+		TranscriptionLines []string
+		Latitude           string
+		Longitude          string
+		Address            string
+	}{
+		StartTime:          startTime,
+		EndTime:            endTime,
+		DeviceType:         deviceType,
+		ShortSummary:       shortSummary,
+		SummaryLines:       summaryLines,
+		TranscriptionLines: transcriptionLines,
+		Latitude:           latitude,
+		Longitude:          longitude,
+		Address:            address,
+	}
+
+	rawBytes, _ := json.Marshal(parsed)
+
 	return &PendantExport{
 		StartTime:  startTime,
 		EndTime:    endTime,
+		DeviceType: deviceType,
+		Latitude:   latitude,
+		Longitude:  longitude,
+		Address:    address,
 		Title:      shortSummary,
 		Overview:   strings.Join(summaryLines, "\n"),
 		Transcript: strings.Join(transcriptionLines, "\n"),
@@ -85,9 +144,22 @@ func ParseBeeFile(path string) (*PendantExport, error) {
 			{Type: "heading2", Content: strings.Join(summaryLines, "\n")},
 			{Type: "paragraph", Content: strings.Join(transcriptionLines, "\n")},
 		},
+		Raw: rawBytes,
 	}, nil
 }
 
+// parseBeeTimestamp converts Bee's "Jul 7, 2025 at 10:14 AM" to RFC3339
+func parseBeeTimestamp(raw string) string {
+	layout := "Jan 2, 2006 at 3:04 PM"
+	t, err := time.Parse(layout, raw)
+	if err != nil {
+		fmt.Printf("Warning: couldn't parse Bee time %q: %v\n", raw, err)
+		return raw // preserve original unparsed
+	}
+	return t.Format(time.RFC3339)
+}
+
+// ParseOmiFile reads an Omi pendant export (currently passes timestamp as-is)
 func ParseOmiFile(path string) (*PendantExport, error) {
 	file, err := os.Open(path)
 	if err != nil {

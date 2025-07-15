@@ -182,7 +182,6 @@ func saveLimitlessExport(outRoot string, export *common.PendantExport) error {
 
 	outDir := filepath.Join(
 		outRoot,
-		"limitless",
 		fmt.Sprintf("%04d", t.Year()),
 		fmt.Sprintf("%02d", t.Month()),
 		fmt.Sprintf("%02d", t.Day()),
