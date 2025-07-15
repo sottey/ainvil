@@ -1,3 +1,24 @@
+/*
+Copyright © 2025 sottey
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
 package cmd
 
 import (
@@ -9,7 +30,6 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
-	"strings"
 	"time"
 
 	"github.com/sottey/ainvil/common"
@@ -35,7 +55,7 @@ var limitlessCmd = &cobra.Command{
 		// Auto-detect start date if none specified
 		if startStr == "" {
 			fmt.Println("No --start provided. Scanning existing output to determine latest saved date...")
-			detected, err := findMostRecentSavedDate(outRoot)
+			detected, err := common.FindMostRecentSavedDate(outRoot)
 			if err != nil {
 				fmt.Printf("Error detecting last saved date: %v\n", err)
 				os.Exit(1)
@@ -44,12 +64,12 @@ var limitlessCmd = &cobra.Command{
 			fmt.Printf("Auto-selected --start: %s\n", startStr)
 		}
 
-		startDate, err := parseDateFlag(startStr)
+		startDate, err := common.ParseDateFlag(startStr)
 		if err != nil {
 			fmt.Println("Error parsing --start:", err)
 			os.Exit(1)
 		}
-		endDate, err := parseDateFlag(endStr)
+		endDate, err := common.ParseDateFlag(endStr)
 		if err != nil {
 			fmt.Println("Error parsing --end:", err)
 			os.Exit(1)
@@ -63,7 +83,6 @@ var limitlessCmd = &cobra.Command{
 		for {
 			fmt.Printf("Fetching page %d...\n", pageNum)
 			apiResp, status, err := fetchPage(apiURL, apiKey, cursor)
-			//fmt.Printf("URL: '%v', Key: '%v', cursor: '%v'", apiURL, apiKey, cursor)
 			if err != nil && status == 429 {
 				if !hadFirst429 {
 					fmt.Println("Received 429 Too Many Requests. Waiting 30 seconds before retrying...")
@@ -93,7 +112,7 @@ var limitlessCmd = &cobra.Command{
 
 			savedThisPage := 0
 			for _, ll := range logs {
-				startT, err := parseTimeISO(ll.StartTime)
+				startT, err := common.ParseTimeISO(ll.StartTime)
 				if err != nil {
 					fmt.Printf("Skipping %q: invalid timestamp\n", ll.StartTime)
 					continue
@@ -117,7 +136,7 @@ var limitlessCmd = &cobra.Command{
 					Overview:      ll.Overview,
 					Transcript:    ll.Transcript,
 					ExportDate:    time.Now().UTC().Format(time.RFC3339),
-					ExportVersion: ainvilVersion,
+					ExportVersion: common.GetVersion(),
 					SourceFile:    "limitlessAPI",
 					Contents: []common.ContentBlock{
 						{Type: "heading1", Content: ll.Title},
@@ -155,70 +174,6 @@ func init() {
 	limitlessCmd.Flags().String("out", "./out", "Output root directory")
 }
 
-// --- Auto-detect logic ---
-func findMostRecentSavedDate(outRoot string) (string, error) {
-	var latest time.Time
-	foundAny := false
-
-	err := filepath.Walk(outRoot, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if info.IsDir() {
-			return nil
-		}
-		if !strings.HasPrefix(filepath.Base(path), "limitless_") || !strings.HasSuffix(path, ".json") {
-			return nil
-		}
-
-		f, err := os.Open(path)
-		if err != nil {
-			return nil
-		}
-		defer f.Close()
-
-		var export common.PendantExport
-		if json.NewDecoder(f).Decode(&export) != nil {
-			return nil
-		}
-
-		t, err := time.Parse(time.RFC3339, export.StartTime)
-		if err != nil {
-			return nil
-		}
-
-		if !foundAny || t.After(latest) {
-			latest = t
-			foundAny = true
-		}
-
-		return nil
-	})
-
-	if err != nil {
-		return "", err
-	}
-
-	if !foundAny {
-		return "", fmt.Errorf("no existing limitless_*.json files found in %s", outRoot)
-	}
-
-	return latest.Format(time.RFC3339), nil
-}
-
-// --- existing helper code (unchanged) ---
-
-func parseDateFlag(s string) (time.Time, error) {
-	if s == "" {
-		return time.Time{}, nil
-	}
-	return time.Parse(time.RFC3339, s)
-}
-
-func parseTimeISO(s string) (time.Time, error) {
-	return time.Parse(time.RFC3339, s)
-}
-
 func saveLimitlessExport(outRoot string, export *common.PendantExport) error {
 	t, err := time.Parse(time.RFC3339, export.StartTime)
 	if err != nil {
@@ -250,27 +205,7 @@ func saveLimitlessExport(outRoot string, export *common.PendantExport) error {
 	return enc.Encode(export)
 }
 
-// --- API fetch (unchanged) ---
-
-type ApiResponse struct {
-	Data struct {
-		LifeLogs []LifeLog `json:"lifeLogs"`
-	} `json:"data"`
-	Pagination struct {
-		NextCursor string `json:"nextCursor"`
-	} `json:"pagination"`
-}
-
-type LifeLog struct {
-	ID         string `json:"id"`
-	StartTime  string `json:"startTime"`
-	EndTime    string `json:"endTime"`
-	Title      string `json:"title"`
-	Overview   string `json:"overview"`
-	Transcript string `json:"transcript"`
-}
-
-func fetchPage(apiURL, apiKey, cursor string) (*ApiResponse, int, error) {
+func fetchPage(apiURL, apiKey, cursor string) (*common.LimitlessApiResponse, int, error) {
 	client := &http.Client{}
 	reqURL, _ := url.Parse(apiURL)
 	q := reqURL.Query()
@@ -293,7 +228,7 @@ func fetchPage(apiURL, apiKey, cursor string) (*ApiResponse, int, error) {
 		return nil, resp.StatusCode, fmt.Errorf("status %d: %s", resp.StatusCode, body)
 	}
 
-	var result ApiResponse
+	var result common.LimitlessApiResponse
 	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
 		return nil, resp.StatusCode, fmt.Errorf("decoding response: %w", err)
 	}

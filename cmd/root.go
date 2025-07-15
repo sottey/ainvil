@@ -27,8 +27,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const ainvilVersion = "ainvil 1.0.0"
-
 var rootCmd = &cobra.Command{
 	Use:   "ainvil",
 	Short: "A tool for normalizing and organizing all your pendant data",

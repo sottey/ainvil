@@ -1,3 +1,24 @@
+/*
+Copyright © 2025 sottey
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
 package common
 
 import (
@@ -9,13 +30,8 @@ import (
 	"time"
 )
 
-const ExportVersion = "ainvil 1.0.0"
-
-// ParserFunc defines the signature for a parser that turns a .txt file into PendantExport
 type ParserFunc func(path string) (*PendantExport, error)
 
-// ProcessTextExports processes all .txt files in sourceDir using the parser
-// and writes them as JSON to outDir/sourceType/yyyy/MM/dd.
 func ProcessTextExports(sourceDir, outDir, sourceType string, parser ParserFunc) error {
 	if sourceDir == "" {
 		return fmt.Errorf("--source is required")
@@ -45,7 +61,7 @@ func ProcessTextExports(sourceDir, outDir, sourceType string, parser ParserFunc)
 		export.ID = strings.TrimSuffix(entry.Name(), filepath.Ext(entry.Name()))
 		export.SourceType = sourceType
 		export.ExportDate = time.Now().UTC().Format(time.RFC3339)
-		export.ExportVersion = ExportVersion
+		export.ExportVersion = GetVersion()
 		export.SourceFile = absInputPath
 
 		// Write it
@@ -61,7 +77,6 @@ func ProcessTextExports(sourceDir, outDir, sourceType string, parser ParserFunc)
 	return nil
 }
 
-// saveExport writes a PendantExport as JSON to the correct outDir structure.
 func saveExport(outRoot string, export *PendantExport) error {
 	t, err := time.Parse(time.RFC3339, export.StartTime)
 	if err != nil {
