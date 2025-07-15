@@ -49,7 +49,7 @@ func ProcessTextExports(sourceDir, outDir, sourceType string, parser ParserFunc)
 		export.SourceFile = absInputPath
 
 		// Write it
-		if err := saveExport(outDir, export, sourceType); err != nil {
+		if err := saveExport(outDir, export); err != nil {
 			fmt.Printf("Error saving %s: %v\n", entry.Name(), err)
 		} else {
 			fmt.Printf("Saved %s\n", entry.Name())
@@ -62,7 +62,7 @@ func ProcessTextExports(sourceDir, outDir, sourceType string, parser ParserFunc)
 }
 
 // saveExport writes a PendantExport as JSON to the correct outDir structure.
-func saveExport(outRoot string, export *PendantExport, sourceType string) error {
+func saveExport(outRoot string, export *PendantExport) error {
 	t, err := time.Parse(time.RFC3339, export.StartTime)
 	if err != nil {
 		t = time.Now().UTC() // fallback
@@ -70,7 +70,6 @@ func saveExport(outRoot string, export *PendantExport, sourceType string) error 
 
 	outDir := filepath.Join(
 		outRoot,
-		//sourceType,
 		fmt.Sprintf("%04d", t.Year()),
 		fmt.Sprintf("%02d", t.Month()),
 		fmt.Sprintf("%02d", t.Day()),
