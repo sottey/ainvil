@@ -1,0 +1,188 @@
+Start Time: Jul 8, 2025 at 10:29 AM
+End Time: Jul 8, 2025 at 10:56 AM
+Device Type: apple_watch
+
+Short Summary:
+AI's Impact: Work and Life
+
+Summary:
+Here's a summary of your recent interaction for your memories, Sean:
+
+### Summary
+You had a lively discussion with Travis and Ralph, covering topics from the capabilities and limitations of AI, its impact on future careers, current political and social commentary, and an update on your Roland Cloud video project. Later, you listened to an exciting announcement about a new Roland product, the GR-1000 Rhythm Creator.
+
+### Atmosphere
+The atmosphere was informal, engaging, and reflective, with moments of humor, shared insights, and strong opinions, particularly during the discussion about current events.
+
+### Key Takeaways
+*   ChatGPT, while useful, has limitations in specific troubleshooting and acts primarily as an advanced "web scraper."
+*   Computer science and data analytics appear to be the most secure career paths given the uncertainty of AI's impact on other sectors, including skilled trades.
+*   "Simulation theory" and similar abstract ideas are only valuable if they offer actionable insights.
+*   You expressed strong opinions on the dynamic between Donald Trump and Elon Musk, and the Cybertruck.
+*   Progress is being made on the Roland Cloud video project by leveraging existing training content.
+*   Roland announced the new GR-1000 Rhythm Creator, building on the legacy of the TR-808 and TR-909.
+
+### AI and Its Impact
+The conversation kicked off with Travis sharing his experience trying to troubleshoot a Roland Cloud demo mode issue using ChatGPT. He noted that while it offered some steps, it included inaccuracies like an "authorize button" that doesn't exist and linked to an old, defunct Zendesk site. You then tried asking ChatGPT about Travis Hartnett, which humorously pulled up two different individuals, including a finance VP and a jazz instrumental guitarist (which Travis confirmed was part of his actual bio). This led to a broader discussion about AI functioning as a "fanciest web scraper" rather than true intelligence.
+
+You and your friends delved into the societal impact of AI on jobs, particularly entry-level positions and skilled trades. Reflecting on a recent conversation with Kelli about what career path one might choose if starting over, you emphasized your belief that computer science, data analytics, or data science are currently the most secure and promising fields given the rapidly changing landscape.
+
+### Society & Politics
+The discussion shifted to broader societal observations, touching on "simulation theory." You dismissed such abstract ideas as unhelpful if they don't provide actionable insights, jokingly relating it to the impracticality of going back in time to "kill Hitler," referencing a Norm Macdonald bit about being swayed by Hitler's charisma.
+
+Travis then shared a vivid anecdote about a former roommate who, while driving for a video director years ago, encountered Donald Trump. The story highlighted Trump's inappropriate comments about a woman's body, and the roommate's intense negative reaction, which Travis playfully framed as a missed "kill Hitler" moment for him.
+
+This segued into current politics, specifically the dynamic between Donald Trump and Elon Musk. You openly anticipated the "fallout" of their "bromance," suggesting that Musk's involvement created a fracture within Trump's political base. You also expressed strong opinions about the Cybertruck, calling it an expensive "piece of shit" that alienates both traditional truck buyers and "Tesla hippies." You recounted Kelli's habit of giving the finger to Cybertruck owners and offered a counter-perspective, noting that such gestures might be trivial to someone already navigating a personal crisis.
+
+### Roland Cloud Video Project Update
+You provided an update on the Roland Cloud "how-to video project," mentioning that there are existing recordings, potentially 8-9 hours long, from past trainings. You plan to review these with Travis to identify short, actionable segments that can be repurposed into new videos, aiming to leverage existing content effectively.
+
+### The GR-1000 Rhythm Creator
+Later in your day, you listened to a professionally narrated piece about Roland's history. It detailed the monumental impact of the TR-808 and TR-909 drum machines on electronic music. The segment culminated in the announcement of the new GR-1000 Rhythm Creator, described as "one for the ages" for professional and semi-professional electronic music producers. It highlighted the GR-1000's features, including its pro analog circuits from the iconic TRD-808 and 909, extended ranges, new parameters, and improved dynamic range. This sounds like an exciting development for Roland.
+
+### Action Items
+*   You and Travis plan to review existing Roland Cloud training recordings to identify potential content for new short videos.
+
+Transcription:
+Sean : Hey there, Travis. Hey there. How are you doing? Good. How are you doing? Okay.
+0: I was just looking to see what chat g p t would say if I just said
+0: my role in cloud instruments keep going into
+Sean : the demo market. And what does it say?
+0: It
+0: it says if you're interested in getting a demo modem, there's a problem with the educational licensing. Here's how to troubleshoot it. One, log in to rolling cloud manager. Make sure you have an accurate description of perpetual license.
+0: Authorize the instrument,
+0: and cloud manager click on this and here it here it goes wrong.
+0: Yeah. Enroll in cloud manager. Click the instrument in question. Look for a button like install, activate, or authorize. There's no authorized button. Yeah.
+0: Internet tension required.
+0: That's right. Reinstall the instrument.
+0: Update everything. License conflict.
+0: License conflict is sort of half right, half wrong.
+0: And then it says, no. That works good. We're on cloud support. So Does it give a link?
+0: It does. Let's see where that link goes.
+0: Just like make you unsafe.
+Sean : Are you using pro or are you using No. Just the free check GPT.
+0: Okay. And then it sends you to the old Zendesk,
+0: like, which which will now say, oh, this help center no longer exists. You mean Freshdesk?
+0: No. It says Zendesk. I think,
+0: wasn't there a period where we had Zendesk when it was rolled to versions on it? Yeah. Yeah. Yeah. That's what I think it's let's see.
+0: It doesn't say the URL, but my guess would be it's sending you to the old v f,
+0: So
+Sean : if I say,
+Sean : tell me about Travis Hartnett
+0: Yeah.
+Sean : It gives me two people. One is the VP of finance at Bain Capital. I hate that, John. I hate that, John. Do you? Yeah. Yeah.
+Sean : Yeah. He seems like he's just a hedge fund bro. Right? Head head. Shape head hedge fund bro. I think that's the hedge fund he's the gyros here. Yeah. Yeah. It it could only get worse if he's on Joe Rogan's podcast. Yeah.
+Sean : And then it has number two, Travis Hartnett jazz instrumental guitarist.
+Sean : Yeah. That sounds about right. Plywood Monkeys,
+Sean : Travis Hartnett project,
+Sean : similar to Bill Frizzell or the merman.
+Sean : And
+0: Yeah. That that's taken from our, bio.
+Sean : You've gigged regularly in Seattle and Cannon Beach playing acoustic, pop, world, and American sets.
+Sean : I can see it pulled back from, like, a band mix. And then it says, which are you thinking of? The finance pro at Bain Capital or the guitarist, composer, atmospheric jazz instrumentalist with a solid live circuit presence?
+0: So there you go. Yeah. Yeah. I am looking
+0: at it too. Yeah. It looks pretty,
+Sean : It's just scraping. It's not wrong. It's the it's the fanciest web scraper ever. Yeah. Yeah. Totally. How's that?
+0: Because there's a feel to it. But, I mean, it just replaces, you know, what the old days people just Google you and then look at, you know, the Right. And this just summarizes it. Yeah.
+0: Yeah. Yeah. I read all these articles about, you know, the effect that AI is gonna have an entry level position. Right.
+0: Totally. You know, it says, well, you know
+0: and,
+0: you know, it's got that old song about, you know,
+0: people should, instead of,
+0: Going to college, consider going into the trades. But then I read an article yesterday that was talking about the highest level rate of the trades. Mhmm. Because they're all being zeroed out too, you know, due to this, that, and the others. So
+Sean : Yeah. It's
+Sean : Kelly and I had a conversation the other day, and she was like, if you could start over, like, what trade would you focus on? And I think anybody
+Sean : with the uncertainty, anybody who isn't getting a degree in computer
+Sean : data analytics or data science right now is making a mistake. That's that's the only sure bet
+Sean : is
+Sean : And,
+Sean : like, I don't think it changes anything.
+Sean : You know what I mean? If we can't get out of the simulation, if we can affect the simulation, then there's no actionable items in that statement other than someone trying to sound smart.
+1: Yeah. Right? There's no value in it. Yeah. Yeah. I totally agree. You know? And everyone fantasizes that they're gonna be able to somehow remove themselves from the simulation or Right. You know, act outside the rules of the simulation. Right. It's like, no. The simulation is pretty fucking complete. You know? There's not a lot of bugs. Alto didn't write the simulation.
+Sean : Yeah. But.
+1: Oh, yeah. Yeah. It it it or it's just an excuse to be, like, you know, selfish to be anymore.
+0: Well, we're just living in a simulation. These people are NTCs.
+Sean : Right. You know? Yep. What do I care about? You know, drowned girls in Texas or whatever. Right. Totally. No. It reminds it's funny you mentioned people thinking they could get out, and it reminds me of, who was it? I think it was Norm Macdonald who had a bit about going back to kill Hitler. It was. It was Norm Macdonald. He was like, what if I go back there and I'm mesmerized by his deep blue eyes? Like, what if I what if he was that charismatic and all of a sudden I'm a Nazi?
+0: I had a roommate
+0: who,
+0: for a while, he was living in New York. And,
+0: After he was no longer my roommate. He moved to New York, and he had a job as
+0: a a personal assistant to this
+0: video director who did mostly did work in advertising. Mhmm. And this was in the early two thousands. And this guy was friends with, this real estate developer, Donald Trump.
+0: And,
+0: so,
+0: my friend well, one of the things he did as an assistant was drive his boss around. Right? And I act as a driver. Yep. And,
+0: there was one time, and
+0: he he he was around Trump multiple you know,
+0: Parties and this and that. And there was one time when they were driving down, like, the New Jersey Turnpike or something, and, Trump's in the back seat with the boss. And the boss's new girlfriend,
+0: who is some, you know, like, 20 year old
+0: Polish,
+0: would be supermodel. Right.
+0: Doesn't speak English very well. Stunningly gorgeous.
+0: And, Trump was talking to
+0: the boss about this new girlfriend rating her. Right? Because she didn't speak English very well and he didn't give a shit. And he told the guy, he said, you know, yeah, she she's pretty good looking but, you know, her tits could be better.
+0: I can give you the number of a guy, you know, who could, you know, you know, bring those up to, you know, respectable
+0: sizes. And my friend told me, he said, and at that moment, I really thought
+0: because Trump was sitting on the on the right hand side in the back, he said, I wonder if I could just, you know,
+0: push the car into the,
+0: guardrail
+0: Rail on the side of the road and kill him without killing myself. Right. This was years, years, years, years before Trump was in politics. Right. Right. And I reminded him since I said, see, you had a chance to kill Hitler. You just didn't realize. It. That's funny. You are you are the guy who considered killing some art school dropout who was really irritating. Right. He's going on and on about Jews. You know? There's a no one in a bar. Right. That's funny.
+Sean : Yeah. Yeah. That fucking guy. I the I don't know if you ever look at TikTok or YouTube shorts, but there's
+Sean : a lot of there's a trend right now of people just filming videos that say,
+Sean : I don't support violence.
+Sean : I don't want anybody killed.
+Sean : I'm just saying.
+Sean : And that's all the video is. It's just people I don't support violence. I don't want anybody killed, but I'm just saying.
+0: So there's this guy. Right? And, every day, he stops at the newsstand outside his apartment.
+0: And he picks up the paper, and he just scans the front page. He puts it down. He never buys it. Never says anything. This goes on day after day, month after month. Finally, the the newsstand owner
+0: says
+0: to him, you know, I don't care if you ever buy paper. I'm just wondering, you know, what is it you're looking for? And he says, I'm looking for an obituary. And he says, obituaries. Obituaries from the the back of the paper. The guy says, not the one I'm looking for.
+Sean : That's funny. Yeah.
+Sean : Yeah. I just,
+Sean : I don't know if you saw my stupid meme. And Ralph claims someone else did it before me, but
+Sean : the picture of Musk and Trump
+Sean : and it says, I always thought that I hated it when mom and dad fought. I guess I was wrong.
+Sean : I'm just I am so here for the fallout of this bromance.
+1: God. It's yeah. I mean, it's it's like
+1: it can't be more than a spoiler, but, you know That's fine. Throw, you know, which way will it spoil? You know, is it gonna be Ross Perot?
+1: Or is it gonna be Ralph Nader?
+Sean : I'm more inclined to think that it's gonna be Ross Perot.
+Sean : That would be my guess too. I I think
+Sean : that the
+Sean : I think his entry with the hundreds of millions of dollars into the MAGA crowd created a fracture, and when he split, he took some with him. And just all the other stuff, all the opinion pieces, all the polls, everything's
+Sean : not looking good for
+Sean : Trump right now. Yeah.
+Sean : But we'll see. I mean, that guy, he pulls rabbits out of hats when I don't think that he can. So His his luck is,
+1: you know, you know, it's astounding. And then, you know, the fact that, like, no one
+0: Until Musk and, you know, of course, Musk initially caved Right. You know, and and hopped on the train. But everyone else, you know, Marco Rubio, Ted Cruz, they're all Bent knee. Yeah. Bezos just lines up to bend the knee. Yep.
+1: And, Zuckerberg.
+0: Yeah. And and, you know, I have my doubts about Musk, you know, because,
+0: he's so beholden to
+0: federal contracts. Right. You know? I think I think that Trump can make him
+0: you know? Already, Tesla is wobbling. Right? And Tesla props up everything else. Right.
+Sean : I mean, it's it's wobbling.
+Sean : It it would have fallen over if not for the EV credits, the regulatory credits that it's been selling to the other carmakers. And now it can't do that anymore. Right. Right. So go with it. Yeah. They're they're screwed, and I'm fine with it. I was Me too. I was reading an article about the cyber truck and how
+Sean : they the its greatest accomplishment was single handedly alienating both sides. It was too big for the Tesla hippies, and it didn't look enough like an f two fifty
+Sean : For the America crowd. Yeah. Yeah. You can't use it as a real truck. No. It's just people who have a Patreon subscription to Joe Rogan and will do anything that Elon Musk says. Right? And it's like a $100. This motherfucking thing is expensive. To buy on a to spend on a piece of shit. Pull up them down here. And whenever I pass one, you know, my car, I always just hit him a finger, you know, just
+Sean : So my my wife does that, and it's like and I this I get the sentiment, but I also what I've said to her is, what if that's,
+Sean : like, the housekeeper of an asshole who just found out that her daughter's been in a car accident and she borrowed that
+0: from
+Sean : Her boss because she wants to get to the hospital to see this person. Already so bad. It doesn't make a difference. Even notices some stranger giving her the finger. It's a drop in the bucket. Yeah. And she knows, you know. If you're driving someone else's
+Sean : Cybertruck. Right? And somebody flips you off. They're not flipping you up. You know. You you know. Here's a That's true. That's true. And you're stopping me. Thank god I have this truck to drive me to the hospital so I could check on my daughter. So Right. Good point. Good point. So keep it up. Yep. Alright. I feel like this has been a productive meeting. Yeah. Yeah.
+Sean : I don't have any updates on Pei or Justin or any of that stuff. I have pushed back with Sean and Robin on the,
+Sean : Videotapes. What am I 90?
+Sean : He has recordings
+0: of
+Sean : trainings that he's done. Maybe Oh, yeah. Eight or nine hours. Okay. And I was think I don't know that it's that many hours.
+Sean : I was thinking it might be good for us to review them and go, oh, here's a little we can just chop out this forty five second bit. Boom. That's a video.
+Sean : Right? Of, like That's not Yeah. So I just I'll share those with you and I just wanted you to look at just take a glance and and Yeah. Sure. Tell me what you think about the viability of leveraging that content. Yep. So okay.
+Sean : Cool. Alright. I think that's it. Alright. Alright. I'll see you in sync. Bye.
+0: The impact Roland drum machines and synthesizers has had on modern music is difficult to overstate. While countless rhythm machines have come and gone, the t r eight zero eight and t r nine zero nine left an indelible mark, shaping the sound of entire genres
+0: of electronic music.
+0: These machines were revolutionary, but it was the artists and communities who gave me soul, pushing sonic boundaries and rhythm and dance culture. In the decades since, we've seen music making evolve rapidly
+0: With digital technology, sampling, of course, computer based music production. As vintage year becomes rarer and more expensive, new tools and technology rise to meet the needs of the modern musician. The desire for dedicated specialized instruments remains strong, perhaps more so in recent years, as does the want for analog.
+0: Well, we ask the question, what does the ultimate rhythm machine look like? After years of planning, working with countless artists, and time traveling through the circuits of the past, we're now looking towards the future. We're proud to announce the g r 1,000 rhythm creator. This is one for the ages.
+0: For professional and semi professional electronic music producers and performers,
+0: The most coveted circuits from the TRD eight zero eight and nine zero nine, pro analog,
+0: and have given the new light sonic possibilities,
+0: extended ranges, new parameters not accessible in the original, and vastly improve dynamic range and usable results.

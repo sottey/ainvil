@@ -1,0 +1,60 @@
+Memory from 2025-07-09T16:02:18.938632+00:00
+
+Title: Team Resolves Software Bugs and Prepares Releases
+Overview: Team members discussed multiple software issues encountered during a period of absence, including a critical instrument availability bug, window resizing glitches, and UI inconsistencies. They detailed troubleshooting steps, fixes merged, and ongoing QA processes. Several team members provided updates on code merges, framework builds for OSX and Windows, content editing for marketing, and coordination for upcoming July promos. Deliberation occurred regarding the timing of merging a major branch, with consensus to wait 24-48 hours for stability. Action items focused on completing technical reviews, content edits, and monitoring feature releases.
+
+Transcript:
+SPEAKER_0: I leave for a few days, and everything breaks. No. Give me 1 that? Everything. No. No. Just the only thing that was important. Yeah. So what's an off out that would be back this morning and couldn't see if NRCM reached and we
+SPEAKER_1: Reboot it, updated, logged in, logged out, couldn't find any breath find it. Brad couldn't find a machine. Hammond couldn't find it. Alex, no. So we'll find Finally realized Brad Hampton and I were off going to the drums section, tier 08:08, not there. We do go to legendary. And then scroll of it on a tier 08:08, it's there. So they're they're something that
+SPEAKER_2: Yeah. We just changed it UAT, and I can confirmed it. Marco, I think, is gonna push it to prod. It's funny that that's the only option this has happened with. So yeah, you just you you caught it.
+SPEAKER_1: Thank you. Yeah. That's weird. And then I also got some trunky resize bug when I I resized the main window to make a a little taller so I could see all the packs to set a screenshot to them. And, also, my mouse cursor position was all fucked up. Like, if I mouse over the more info button, it was actually activating preview button above it, like, it was vertically offset. And then I also noticed the borders around the whole RC when it started showing through whatever was behind RCM. And
+SPEAKER_2: I was like, it was transparent. So and then Brad just noticed that there was a notification that says there's a new instrument available, TR 08:08 jump.
+SPEAKER_1: Tahata. I don't know why it's a new instrument available, not like new instrument Anyways, so, yeah, just working on that path now. I merged in chances last Store Crashfix. He pushed over 4 others for me that he verified our all already fixed in Joel's branch. So they're just gonna review from me right now until
+SPEAKER_2: Joel, so that's
+SPEAKER_1: Good.
+SPEAKER_2: Just working on immunology. Express price. Missing steps that I was reading about to make a framework and experimenting to first.
+SPEAKER_3: Settings and building linking, just testing out. I guess today, what the other big thing I'll do is try to build I've been building some beads for Iowa a while, so I'll be getting that money. It's like, it's just the Xenogee engine. So yeah. And I can merge when to start with Windows. I'm still working on the the OSX 1. I mean, that would be another day, but I think it would be more funds or that. It just doesn't have to run back now. But tomorrow, will be able to distribute a very it's 1. Commit to giving it OSX framework today if I'm still experimenting with different flags. But when is 1 I can when is DLL?
+SPEAKER_1: Okay.
+SPEAKER_3: Hey. So if you could
+SPEAKER_4: I guess, resizing issue, I'm probably about to move on to the another ticket I have of the newsprint mixer. Instrument. It looks like this issue, there was just an extra check. Trying to see if there was room for the button. And if there wasn't, it was moving it, but that check was kind of unnecessary because this x button is kind of hard coded in its position on the right side. And so there was there's always room for it. And so I just removed that check. It looks like the other thing now was seeing with the history review was just something else that we had in a big point set up. So it looks like it was just this resize issue, and then we'll push that, and then move on. Time than expected. I'll do the weight that I I need to draw the way from.
+SPEAKER_0: What what
+SPEAKER_3: Yeah. When you move the the points to change the gain and the frequency,
+SPEAKER_1: Mhmm. I'm trying to to draw the going from, like, the technology probe. Okay. Let's go. Let's Let's just let you
+SPEAKER_5: I'm mostly working on GC1 pack. Technology patches for it right now. It's our main focus, but I've been also updating some packs. Yeah. I got a couple little packs for a of work on with the minor data stuff last week. Was looking at a bunch. So I was knocking those out. That's pretty much it, but mostly just you wanna
+SPEAKER_2: I'm always looking at Galaxias and backlogs of minor issue with resize, and and I I've been looking at g 7 as that meets point of left in here, and then I'm gonna have to I'm gonna go back to looking at ZGX versus
+SPEAKER_7: Synology Pro.
+SPEAKER_0: Hey.
+SPEAKER_5: Good morning, everyone. Today, just wrapping up final box video that I was working on for social.
+SPEAKER_4: Just taking some of the clips that Jared and Brian provided and kind of know, the pedal video thing happen.
+SPEAKER_5: And then today, I think I got a couple more clips coming in from Brian for from Patrick Green.
+SPEAKER_8: I'll take a look at that shortly, and then I think they're more marketing planning later.
+SPEAKER_6: So take a look at the patients and and get whatever we need to get for the the next round of packs in there.
+SPEAKER_8: And, yeah, it's probably open now.
+SPEAKER_6: K. Alright.
+SPEAKER_1: Oh, hey. Yeah. Just working on a bunch of artist content that came in just editing the or marking up all of the Izzy Fontaine clips We should have some DJ Pierre contact coming in. Just coordinating the last of the artists coming in for all of the July promos today. Getting in with global social. That's it.
+SPEAKER_0: Nothing to death. Thanks.
+SPEAKER_5: Who claims that every time they open their meets the have, like, a a new update available thing.
+SPEAKER_9: Is that something we're seeing a lot of? Sorry. But that's already been talked about.
+SPEAKER_6: But Yeah.
+SPEAKER_4: You that that morning, though. I have had a couple of people
+SPEAKER_9: It seems like he he is. I'll I'll make sure. But, yeah, that's that's the only thing. I'll I'll let you know more about it when I ask some questions.
+SPEAKER_3: Okay. Cool. Thanks.
+SPEAKER_7: Curious to you of you know, an idea of Homeridge Julesville. Jimmy Choose 7 into the Choose
+SPEAKER_1: Yeah. That's what he has to talk about.
+SPEAKER_6: It's up to you guys, honestly.
+SPEAKER_8: If we're
+SPEAKER_6: I mean, if we're merging it into g 7, that's gonna Okay. How confident are we that we're having to apply some unknown show stopper after the it's impossible to really gauge that.
+SPEAKER_10: What what did you really I'm sorry. How many days have you been in the wild?
+SPEAKER_6: It's going on the wild in a couple of laps.
+SPEAKER_10: Oh, let's just wait. And so I just wait. Yeah. Just really could be a little bit tougher. Thanks.
+SPEAKER_6: But Yeah. I I would say just give it good 48 hours in a while, and then
+SPEAKER_10: I I'm gonna theory. And we can I can set a tag and we go back to it soon and fix it? It's not a big deal to emerge out of the deal, but Okay. Have those any but what are we waiting? What's the what is games by merging? Obviously, you know, we could, but I am pulling down their chips. So that means they can always jump into my brains if they wanted to and and merging it that way too.
+SPEAKER_6: Thing we gain by merging sooner is that we can, you know, have to That's really the big thing again. And you're finally gonna be all There is no more merging after this. You're just working in this branch unless
+SPEAKER_10: Okay. Yeah. Well, anyway, the point is I could I could, in theory or not in theory, in the an attack. And merged today. That's the big deal. But I have been stepped up as I get it. So when you get that, you'll see if I can jump the jump already. So there'll be a lot there, but yeah, it's really I mean, I would just I honestly just honestly just wait at least at least 24 hours to see if it would be crazy, come back, like, some immediate thing.
+SPEAKER_3: I don't foresee anything. I'm gonna do that.
+SPEAKER_6: Just the least day. And I don't get that. Guess but I'll do the exact unit.
+SPEAKER_10: So I need to go fly. What setting I had wrong with the
+SPEAKER_6: Alright.
+SPEAKER_0: Boring me. Let's move on to something else that's more boring.
+SPEAKER_6: Oh god. Rose looks terrible.
+SPEAKER_5: I'm a suicide and

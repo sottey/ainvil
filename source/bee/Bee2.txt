@@ -1,0 +1,340 @@
+Start Time: Jul 9, 2025 at 8:59 AM
+End Time: Jul 9, 2025 at 9:54 AM
+Device Type: apple_watch
+
+Short Summary:
+Business and Personal Recovery Update
+
+Summary:
+Here's a summary of your day, Sean, blending your professional engagements with your personal commitments.
+
+### Summary
+Today was a dynamic mix of focused work discussions at Roland, covering sales, product development, and content creation, alongside a deeply personal and supportive fellowship meeting where you actively participated and were recognized for your commitment to recovery.
+
+### Atmosphere
+The atmosphere shifted between the analytical and collaborative energy of business meetings and the heartfelt, empathetic, and grateful tone of your support group. It was a day of both strategic thinking and profound personal connection.
+
+### Key Takeaways
+*   **Roland's Sales & Tech Progress:** You were involved in discussions about current sales performance, reporting anomalies, and ongoing technical fixes and product development for Roland Cloud.
+*   **Content & Marketing Initiatives:** Updates were provided on various content projects, including artist collaborations and the naming of new products. You continued work on your "how-to video project."
+*   **Active Fellowship Participation:** You are a valued and committed member of your spiritual/recovery fellowship, contributing to discussions and being recognized for your consistent presence and service.
+*   **Shared Journeys:** The fellowship meeting provided a space for members to share vulnerable stories about their sobriety, struggles, and the role of a higher power in their lives.
+
+### Work Updates
+Your day at Roland included diving into several key areas. Sales figures were a point of discussion, with observations about a recent lull in commercial collection sales and an overall 93% progress towards the budget, aiming for 5% year-over-year growth. There was also a "reporting issue" noted, which might be causing some sales anomalies, but it wasn't seen as critical.
+
+On the technical and product development front, updates covered various fixes, including resizing windows, addressing a "Chancey Glass store crash fix," and working on framework and OSX-related patches. A specific software bug was detailed where the mouse cursor was misaligned, activating the wrong buttons. You confirmed a new AT push to production.
+
+Regarding content and marketing, you mentioned working on a "pack" (likely related to your "how-to video project" for Roland Cloud) and preparing for the "next round of facts." Other team members provided updates on artist content, editing Izzy Fontaine clips, coordinating July promos, and progress on social media content. A notable discussion revolved around the overly long name for a new product, "T R A 08 Arabian Prince True West Coast," and the need to shorten it.
+
+### Personal Reflections & Community
+You were an active and appreciated participant in your spiritual/recovery fellowship meeting. You started the session with a lighthearted comment about wearing the same shirt as yesterday, setting a comfortable tone. Later, you candidly shared a personal reflection about past decisions related to alcohol, stating, "I just I decided after one or two beers, I'm gonna have another one."
+
+Your commitment to the group was highlighted when a fellow member thanked you for your "service" and "tremendous support," noting that you "do what you say." The facilitator also recognized your consistent involvement, mentioning that you've "been a part of this meeting for a while" and are the type who "gives commitments and sticks around before and after." You expressed gratitude for hearing others' shares, specifically mentioning "Catherine."
+
+The meeting featured powerful and vulnerable shares from other members about their journeys with sobriety, finding a higher power, and overcoming fear and past struggles. Themes included the importance of a "higher power," the concept of a "God that is in everything," and the realization of powerlessness over addiction. One member shared a profound story about how days off work used to be solely for "getting smashed" without consequence, illustrating their transformation in recovery. Another spoke about their first year of sobriety, grappling with thoughts of self-harm before finding faith. You even volunteered to share again, noting you had "reached the Zoom electronic hand raise."
+
+### Action Items
+*   Follow up on questions regarding the "pack" you are working on for the how-to video project.
+*   Review Confluence pages for upcoming marketing planning and the next round of content.
+*   Check on the progress of the proposed name change for the "T R A 08 Arabian Prince True West Coast" product.
+
+Transcription:
+1: Leave for a few days and
+1: everything works.
+1: Good morning, Hector.
+1: Hi.
+1: Yes. So I went to knock out the they look at that this morning.
+Sean : And we couldn't see a nurse yet. We we
+1: booted, updated, logged in, logged out,
+1: Couldn't find it. Right? Couldn't find it.
+1: Finally realized
+1: section here at 08:08. Not there. Did you go to legendary?
+Sean : Yeah. We just, changed the new AT and I confirmed it. Marco, who I think is gonna push us to prod.
+2: Can you just get get caught up? Thank you. Yeah. That's weird.
+1: I I resized the main window, changing a little taller so I could see all the back
+1: instead of screenshot to them.
+1: And also, my mouse cursor position is all fucked up.
+1: Like, if I mouse over the more info button, it was actually
+Sean : activating the three d button above it, and it was perfectly offset.
+1: And then I also noticed the borders around the horse
+1: unit, sort of showing through whatever was behind RCM.
+Sean : You know, like, it was transparent.
+Sean : And then Brad just noticed that there's a notification that says there's a new instrument
+1: available, p r a o h on top of Todd.
+Sean : Oh, I think the instrument's available. Not like new actors.
+1: Anyways,
+Sean : so, yeah, I'm just working on that pack now. I merged in,
+1: Chancey Glass store crash fix.
+1: He pushed over four other for me that he verified are already fixed
+2: A text
+1: framework today. Let's go experimenting with the first flags.
+2: get
+1: Yeah.
+1: First.
+1: Settings.
+1: And I'm hoping it looking, just testing out. I guess today,
+1: So yeah. If I can merge
+1: whatever. Just from Windows. I'm still working on the
+1: OSX one. I know we have David. I think we we know what is some sort of bad.
+2: and I Okay. Gue seven. And it's a meet
+2: Okay.
+2: Hey. So I'm Fisher
+2: It looks like this issue, there was just an extra check.
+2: Trying to see if there's room for the button.
+2: Kind of necessary because
+2: So
+2: Yeah. When you,
+1: I'm mostly working on
+1: CC one patch, the technology patches for it right now.
+2: I was looking at a galaxius and backlogs
+1: some minor, issues with resize and
+2: looking at DGX versus
+2: Synology Pro.
+1: Hey. Good morning, everyone. Today, just wrapping up
+1: the final part for you that I was working on for social.
+Sean : So just taking some of the clips that, Jared and Brian provided and
+1: kind of making the
+Sean : video thing happened. And then today, I think I got a
+2: couple more clips coming in from Brian from Patrick Green.
+2: I'll take a look at that, shortly. And then I think there's marketing planning later. So
+2: take a look at the Confluence patients and and get whatever we need to get
+Sean : for the the next round of fax in there.
+1: And the it's probably open now.
+1: Okay. Yes. We're gonna have a bunch of, artist content that came in.
+1: Editing the
+1: working up all the Izzy Fontaine clips. We should have
+1: some PGAPR contact coming in.
+1: Just coordinating the last of the, artists coming in for all the July promos today.
+Sean : Getting in with Global Social. That's it.
+Sean : Nothing today. Thanks.
+1: Okay.
+2: It seems like he is. I'll I'll make sure.
+Sean : But, yeah, that that's what I think. I'll I'll let you know more about it when I ask some questions.
+2: Okay.
+2: Next.
+1: Just just curiosity of of
+3: we have an idea when we're gonna merge Jules up.
+3: Maybe two seven, into the two seven. Yeah.
+3: Yes.
+2: Okay.
+1: How confident are we that we're having to find some
+3: So when you get that, you'll see a bunch of stuff hooked up already.
+3: So it'll be a lot there, but
+3: it's yeah. It's really I mean, I would just I honestly just wait at least.
+Sean : Alright. That's boring me. Let's move on to something else that's
+Sean : more boring.
+Sean : Oh, god. Rosalind's
+1: terrible.
+1: For Ross.
+1: About why you fall victim about you.
+2: I
+1: so much. Wonderful.
+1: Thank you so much.
+Sean : I will now hold on to volunteer to share. Please, I've reached the Zoom electronic hand raise
+1: our topic which guide the either answer his
+1: God, I is what is our choice?
+1: For sure. So we'll give everybody a minute to think about that. Capital
+1: Oh, here we go.
+1: Anything for your share, Anthony?
+1: And
+1: God is a big part of my life. I
+1: how
+1: more and more about my life.
+1: And,
+1: I'm not sure
+3: one of my goals.
+1: Charlie and Deborah on deck, and then, we'll lose up the court. Okay.
+1: Let's see. Next up is Michelle.
+2: Thank you for your service this evening, and thank you for
+2: shun.
+2: Support me tremendously. And if you do what you say, you don't just
+2: or really I didn't follow it with, in drinking, you know, and when you spoke that. So
+2: You know, take a look at your hot bottom, I suppose, and
+2: quite a struggle to, reach out. You know, I know
+2: that's not what God wants for me. And I believe that
+2: you know, God's put me on this meeting to, you know, cause some of the details of it.
+2: And, I'm really grateful to you for informing the same that you've got amazing recovery.
+2: Yeah. I'll be there. Thank you.
+1: Because I'm on this different device. So I'm sorry. Next up is
+3: And
+2: Thank you, Taffy, for your share. You know, god. Oh, wow.
+2: I didn't
+2: question
+2: I just knew inside that God was always there.
+1: No.
+2: But today,
+2: I realized that
+2: he's always there.
+2: And,
+2: And as you were saying talking,
+2: She's saying his words.
+2: And just
+2: pause.
+2: I truly got it right down here in my soul.
+2: silent resolution. And that
+2: You know?
+2: And that that I found endlessly frightening, frustrating,
+2: and that that every time that I think to to treatment is my only solution to that.
+2: And I,
+5: I was surprised to be able to find a daughter. I think I was very fearful
+5: life to to to that. Not just a bit
+5: you choose.
+5: live off it today.
+4: We should hate you. That is our goddess. Wow.
+4: Fear based thought for me. It's punishment.
+4: And there were too many rules and regulations.
+4: And I couldn't understand why
+4: And so as I came into this one
+4: for me because I couldn't do it myself.
+4: Whatever
+4: isn't in my life, and I worshiped that
+4: So for me, if I take a look out here in my backyard,
+4: there's a tree that was being,
+2: that the tree was being burned.
+4: And
+4: My prayers will not give them.
+4: So
+4: I am present.
+4: To the God that is in everything, in this universe, in my daughter,
+5: It is something that the the the routine that you touched on the other
+5: How to keep dancing even I can't always quite hit music and trust in in this.
+3: And
+5: And thank you so much, Catherine, for your beautiful share and
+5: loved,
+4: your honesty and just being talking about
+5: being a woman. You know, fourteen days to welcome
+5: back, but you were grateful that you're here.
+5: It's always a good reminder to, like, what was it like when you're here?
+5: Dealing. You know, for me, I was very similar to Catherine.
+5: I I was
+5: very
+5: Because I felt so all the time. I just
+2: it was worse to not have alcohol. Like, alcohol same in life. I think it's same with sanity and kept me from killing myself for all the time.
+1: And then
+5: know, when I my first year of sobriety, I was just couldn't stop thinking about
+5: how I could off myself. And
+5: I didn't have a god in my life and they, you know, I had been in a
+4: she said, well, I'll share my card with you. And and I never just
+2: these?
+5: You don't have to, you know,
+4: whatever. You just do believe that I believe.
+4: And I said, well, yeah. I can see you believe. She's in your spiritual
+4: She's in your peaceful world. I did want what she had. I wanted that.
+5: Peace. I just I wanted the angst to go away.
+5: life was a grind.
+1: I didn't know what she meant by that, but she said just pray.
+4: Pray or whatever. Pray for not pray just
+4: I was like,
+1: know, she said they're bigger than you. You didn't put them there. Something else put them in there. Like,
+1: And, you know, that was a game changer for me. So that God even has risen in
+1: Thanks, Debbie. Alright. Great to be here. And,
+6: yeah. Welcome to the first timers here. We're really glad that you're here. You know, Carrie talked
+6: about when we first started the meeting, and sometimes it does really, shock you to
+6: still going on. We've got new people showing up, and the first timers showing up from
+6: participating, camera on, and just being a part of the deal. And
+6: I think that's really important. Not not only when we've got some time, but when we're new, especially,
+Sean : And, Catherine, great to hear your share today.
+2: and just, you know, welcome to all of you, and I hope you come back.
+4: so there's something bigger, something more powerful than you. And
+4: that can help you and but you'd have to ask for help
+1: Right. I my brain is so screwed up.
+Sean : And,
+5: know, I'm I'm so grateful to have
+5: all the new friends here and,
+4: We're here every day. And I'll see you. I'll be posting.
+6: the country and all over the place. Matthew, congratulations. Fourteen days man. That's great. And Matthew, you know, it's good to see you here
+1: Oh, thank you so much. I think Chris is, very public and highly.
+6: You know, I was thinking you've been a part of this meeting for a while, and and you're you're the type
+6: that, you know,
+6: gives commitments and and and sticks around before and after.
+Sean : And visits and stuff, you know, you're really a part of this meeting.
+6: And,
+6: powerless.
+6: told myself I'm not gonna drink till Friday and, like, Wednesday rolls around and I have a beer,
+6: I didn't think I was powerful sober alcohol. When I came
+6: And, but, yeah, I had never heard your story until today.
+6: And I related to quite a bit of it. There was something you said, Catherine, that reminded me of
+6: when I had a few days off from work,
+6: like, if I was off work for three or four days consecutive,
+6: know, maybe a normal person would go, I don't know, volunteer, merchandise, or
+6: you know, help out with a theme to home with the soup kitchen or
+6: something, you know, really good or paint the house or maybe work out
+6: a new garden or something really nice. And and
+6: for me, when I was off, it was three or four days from work, and I thought all I could really think
+6: about this is just gravy. I can get it loaded if I want to, and I don't have to worry about a hangover.
+6: I can just get smashed. Nobody's gonna bother me.
+6: I never would have thought to myself that I was
+6: Over alcohol, I wouldn't have worried it how I let's say if I said if
+6: I would decide to have another one and I just thought it was what changed my mommy.
+Sean : You know? I just I decided after one or two beers, I'm gonna have another one.
+Sean : Morning, everybody.
+Sean : We get t shirt mic today.
+Sean : Same shirt as I was wearing yesterday.
+Sean : Oh, I didn't notice that. I was I was
+Sean : not paying attention to shirts yesterday, apparently. It would be.
+3: Alright. Stay with the door.
+1: Yeah. The Patrick Green stuff was there. Izzy's, I had to
+7: comp together, and I have that sitting over here. That'll be done shortly. Cool.
+3: I have curated for
+3: drafted.
+3: And then, any additional pedal for facing cars?
+3: Progress.
+1: Because I was gonna take a look at it.
+3: Weird. He didn't like Yeah. He moved to Brian. Yeah. I saw that too. Okay. Well, it's back to you. Sorry.
+6: Yeah. Of course. I'm gonna do Yeah. I'll I'll take a look at the notes and and and
+3: This should be the last one of the batch.
+Sean : So one more and this one will be a little bit different than the other ones as well. So
+8: I'm preferring some stuff out of the new ones, so we'll see you today.
+8: I took the
+8: Check-in with me about that.
+2: Yeah. We need to touch base with him. Okay.
+6: Which isn't too surprising. That could be
+Sean : 5% year over year growth even if July were to end.
+6: With that said, there's a little bit of a
+6: I don't wanna say an anomaly. I think it's just reporting catching up, but I'll I'll show you guys.
+3: It would be the the something seems off because we haven't sold a
+Sean : logo or a commercial collection in two days now.
+6: So I'll check with John. Do you see this purple line? This is the, the sales combined.
+6: to, Phil over the plumbing team. They said, hey. We need to
+Sean : I don't believe it. So I I think it's a
+6: reporting issue, not a, you know, the buildings and fire issue. But
+6: just just something as an FYI so that that could jump up
+6: a little bit more, which will certainly take. We're about 16,000 today.
+6: as you see that reporting tick back over, it could jumble up again.
+6: But just as a
+6: little bit of an issue to getting into it. Mike, I did reach out privately
+6: some cloud links? I'd rather do the embeds if we can.
+6: So please don't, like, break your
+6: self trying to get all the entries, which makes you realize the problem
+3: But I'm just talking with Jim Stout.
+3: The name is not feasible.
+3: It's just T R A 08 Arabian Prince True West Coast. This is too long. So I reached out to Jamie yesterday about
+3: changing it to either True West Coast and then having it, you know, be clear that it's by a radiant green. So changing it to a radiant green.
+3: For the last six years. So anyway,
+3: necessary over the weekend.
+6: Percent, which is good. So we're at 200,000 out of those 60093% towards our budget. And already at
+6: That seems very odd that we haven't even sold one. So
+Sean : Nothing happened in, you know, for the past few days.
+6: basically, the numbers have not changed in forty eight hours.
+7: don't worry about it. I sent over a draft just
+7: to him, not officially, of the plug in boutique setup file as we have it. I did put the, some work
+7: stuff in there that you you said just as a placeholder.
+7: Just to say, can you work with this? You said you could, but
+Sean : checking before we keep going down this road any further. So wait waiting to hear back on
+7: on that. So that's that's, where that is.
+3: I will only do if forced. Yeah. And then looking through the site,
+6: honestly, I didn't see a lot of audio demos anyway.
+7: Fact, you know, the the more and more I looked through it, it seems to be they're not
+Sean : trying to sell you on something as much as sell you something, if you know what I'm saying. Like, it's a you may
+Sean : a decision to buy, not a, here, would you like to listen to the hot hat in isolation for
+Sean : fifteen minutes? It's like, no. I've already decided to take my money. So there's this it's a lot more transactional.
+8: A
+Sean : Thank you.
+8: Okay. Sean, I did include the plug in boutique at support at Rolando email for us, so that that's in there
+7: So thank you. So
+6: Date.
+7: So that's that. Yeah. That's the big all up.
+7: So, yeah, happy holidays of Wednesday. Happy Wednesday.
+5: Thanks a lot. Bye. Thanks, Mike.
+3: You very much, guys. Reach out again, and I will see if we'll follow you at some point today.

@@ -22,25 +22,32 @@ THE SOFTWARE.
 package cmd
 
 import (
-	"os"
-
+	"github.com/sottey/ainvil/config"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
-
-const ainvilVersion = "ainvil 1.0.0"
 
 var rootCmd = &cobra.Command{
 	Use:   "ainvil",
-	Short: "A tool for normalizing and organizing all your pendant data",
+	Short: "Ainvil is a unified AI pendant log exporter",
+	Long: `Ainvil exports lifelog entries from supported AI pendant devices
+like Omi and Limitless, storing them in a normalized file structure.`,
 }
 
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
+// Execute runs the root command.
+func Execute() error {
+	cobra.OnInitialize(config.InitConfig)
+	return rootCmd.Execute()
 }
 
+// init binds global flags and configuration setup.
 func init() {
+	rootCmd.PersistentFlags().StringP("config", "c", "", "Path to config file (default is $HOME/.ainvil.json)")
+	viper.BindPFlag("config", rootCmd.PersistentFlags().Lookup("config"))
 
+	rootCmd.PersistentFlags().String("api", "omi", "Which API to use (e.g., omi, limitless)")
+	viper.BindPFlag("api", rootCmd.PersistentFlags().Lookup("api"))
+
+	rootCmd.PersistentFlags().String("token", "", "API key or token for the selected service")
+	viper.BindPFlag("token", rootCmd.PersistentFlags().Lookup("token"))
 }
