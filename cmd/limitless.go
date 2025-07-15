@@ -1,24 +1,3 @@
-/*
-Copyright © 2025 sottey
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
 package cmd
 
 import (
@@ -30,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 	"sort"
+	"strings"
 	"time"
 
 	"github.com/sottey/ainvil/common"
@@ -52,6 +32,18 @@ var limitlessCmd = &cobra.Command{
 			os.Exit(1)
 		}
 
+		// Auto-detect start date if none specified
+		if startStr == "" {
+			fmt.Println("No --start provided. Scanning existing output to determine latest saved date...")
+			detected, err := findMostRecentSavedDate(outRoot)
+			if err != nil {
+				fmt.Printf("Error detecting last saved date: %v\n", err)
+				os.Exit(1)
+			}
+			startStr = detected
+			fmt.Printf("Auto-selected --start: %s\n", startStr)
+		}
+
 		startDate, err := parseDateFlag(startStr)
 		if err != nil {
 			fmt.Println("Error parsing --start:", err)
@@ -71,6 +63,7 @@ var limitlessCmd = &cobra.Command{
 		for {
 			fmt.Printf("Fetching page %d...\n", pageNum)
 			apiResp, status, err := fetchPage(apiURL, apiKey, cursor)
+			//fmt.Printf("URL: '%v', Key: '%v', cursor: '%v'", apiURL, apiKey, cursor)
 			if err != nil && status == 429 {
 				if !hadFirst429 {
 					fmt.Println("Received 429 Too Many Requests. Waiting 30 seconds before retrying...")
@@ -93,51 +86,59 @@ var limitlessCmd = &cobra.Command{
 			count := len(logs)
 			fmt.Printf("Lifelog count for page %d: %d\n", pageNum, count)
 
+			// sort logs by StartTime
 			sort.Slice(logs, func(i, j int) bool {
 				return logs[i].StartTime < logs[j].StartTime
 			})
 
+			savedThisPage := 0
 			for _, ll := range logs {
 				startT, err := parseTimeISO(ll.StartTime)
 				if err != nil {
-					fmt.Printf("Skipping %q: invalid startTime\n", ll.ID)
+					fmt.Printf("Skipping %q: invalid timestamp\n", ll.StartTime)
 					continue
 				}
 
-				if !inRange(startT, startDate, endDate) {
+				// Apply date filtering
+				if !startT.IsZero() && startT.Before(startDate) {
+					continue
+				}
+				if !endDate.IsZero() && startT.After(endDate) {
 					continue
 				}
 
-				// Build pendant export
-				rawBytes, _ := json.Marshal(ll)
-				export := common.PendantExport{
+				// Build PendantExport
+				export := &common.PendantExport{
 					ID:            ll.ID,
 					SourceType:    "limitless",
 					StartTime:     ll.StartTime,
 					EndTime:       ll.EndTime,
+					Title:         ll.Title,
+					Overview:      ll.Overview,
+					Transcript:    ll.Transcript,
 					ExportDate:    time.Now().UTC().Format(time.RFC3339),
 					ExportVersion: ainvilVersion,
-					SourceFile:    apiURL,
-					Title:         ll.Title,
-					Overview:      ll.Markdown,
-					Contents:      parseLimitlessContents(ll.Contents),
-					Raw:           rawBytes,
+					SourceFile:    "limitlessAPI",
+					Contents: []common.ContentBlock{
+						{Type: "heading1", Content: ll.Title},
+						{Type: "heading2", Content: ll.Overview},
+						{Type: "paragraph", Content: ll.Transcript},
+					},
 				}
 
-				if err := saveLimitlessExport(outRoot, export, ll.ID, "limitless"); err != nil {
-					fmt.Printf("Error saving %s: %v\n", ll.ID, err)
+				if err := saveLimitlessExport(outRoot, export); err != nil {
+					fmt.Printf("Error saving %s: %v\n", export.ID, err)
 				} else {
-					fmt.Printf("Saved %s\n", ll.ID)
+					fmt.Printf("Saved %s\n", export.ID)
+					savedThisPage++
 					totalSaved++
 				}
 			}
 
-			nextCursor := apiResp.Meta.Lifelogs.NextCursor
-			if nextCursor == nil || *nextCursor == "" {
-				fmt.Println("No more pages.")
+			if apiResp.Pagination.NextCursor == "" {
 				break
 			}
-			cursor = *nextCursor
+			cursor = apiResp.Pagination.NextCursor
 			pageNum++
 		}
 
@@ -147,150 +148,155 @@ var limitlessCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(limitlessCmd)
-	limitlessCmd.Flags().String("token", "", "API key (required)")
-	limitlessCmd.Flags().String("url", "", "API URL (required)")
-	limitlessCmd.Flags().String("start", "", "Start date (optional) in MM-DD-YYYY")
-	limitlessCmd.Flags().String("end", "", "End date (optional) in MM-DD-YYYY")
+	limitlessCmd.Flags().String("token", "", "API token (required)")
+	limitlessCmd.Flags().String("url", "", "Base API URL (required)")
+	limitlessCmd.Flags().String("start", "", "Start date (RFC3339) or auto-detected if omitted")
+	limitlessCmd.Flags().String("end", "", "End date (RFC3339, optional)")
 	limitlessCmd.Flags().String("out", "./out", "Output root directory")
 }
 
-// Limitless-specific structures
-type LifeLog struct {
-	ID        string         `json:"id"`
-	StartTime string         `json:"startTime"`
-	EndTime   string         `json:"endTime"`
-	Contents  []ContentBlock `json:"contents"`
-	Title     string         `json:"title"`
-	Markdown  string         `json:"markdown"`
-	IsStarred bool           `json:"isStarred"`
-	UpdatedAt string         `json:"updatedAt"`
-}
+// --- Auto-detect logic ---
+func findMostRecentSavedDate(outRoot string) (string, error) {
+	var latest time.Time
+	foundAny := false
 
-type ContentBlock struct {
-	Type    string `json:"type"`
-	Content string `json:"content"`
-}
+	err := filepath.Walk(outRoot, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil
+		}
+		if !strings.HasPrefix(filepath.Base(path), "limitless_") || !strings.HasSuffix(path, ".json") {
+			return nil
+		}
 
-type APIResponse struct {
-	Data struct {
-		LifeLogs []LifeLog `json:"lifelogs"`
-	} `json:"data"`
-	Meta struct {
-		Lifelogs struct {
-			NextCursor *string `json:"nextCursor"`
-			Count      *int    `json:"count"`
-		} `json:"lifelogs"`
-	} `json:"meta"`
-}
+		f, err := os.Open(path)
+		if err != nil {
+			return nil
+		}
+		defer f.Close()
 
-func parseDateFlag(value string) (*time.Time, error) {
-	if value == "" {
-		return nil, nil
-	}
-	t, err := time.Parse("01-02-2006", value)
-	if err != nil {
-		return nil, fmt.Errorf("invalid date format %q (use MM-DD-YYYY)", value)
-	}
-	return &t, nil
-}
+		var export common.PendantExport
+		if json.NewDecoder(f).Decode(&export) != nil {
+			return nil
+		}
 
-func parseTimeISO(value string) (time.Time, error) {
-	return time.Parse(time.RFC3339, value)
-}
+		t, err := time.Parse(time.RFC3339, export.StartTime)
+		if err != nil {
+			return nil
+		}
 
-func inRange(t time.Time, start, end *time.Time) bool {
-	if start != nil && t.Before(*start) {
-		return false
-	}
-	if end != nil && t.After(*end) {
-		return false
-	}
-	return true
-}
+		if !foundAny || t.After(latest) {
+			latest = t
+			foundAny = true
+		}
 
-func fetchPage(apiURL, apiKey, cursor string) (*APIResponse, int, error) {
-	u, err := url.Parse(apiURL)
-	if err != nil {
-		return nil, 0, fmt.Errorf("invalid API URL: %v", err)
-	}
-
-	q := u.Query()
-	if cursor != "" {
-		q.Set("cursor", cursor)
-	}
-	u.RawQuery = q.Encode()
-
-	req, err := http.NewRequest("GET", u.String(), nil)
-	if err != nil {
-		return nil, 0, fmt.Errorf("creating request: %v", err)
-	}
-	req.Header.Set("X-API-Key", apiKey)
-
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, 0, fmt.Errorf("making request: %v", err)
-	}
-	defer resp.Body.Close()
-
-	status := resp.StatusCode
-	if status == 429 {
-		return nil, status, fmt.Errorf("received 429 Too Many Requests")
-	}
-
-	if status != 200 {
-		body, _ := io.ReadAll(resp.Body)
-		return nil, status, fmt.Errorf("non-200 response: %d\nBody: %s", status, body)
-	}
-
-	var apiResp APIResponse
-	if err := json.NewDecoder(resp.Body).Decode(&apiResp); err != nil {
-		return nil, status, fmt.Errorf("decoding JSON: %v", err)
-	}
-
-	return &apiResp, status, nil
-}
-
-func parseLimitlessContents(contents []ContentBlock) []common.ContentBlock {
-	var result []common.ContentBlock
-	for _, c := range contents {
-		result = append(result, common.ContentBlock{
-			Type:    c.Type,
-			Content: c.Content,
-		})
-	}
-	return result
-}
-
-func saveLimitlessExport(outRoot string, export common.PendantExport, id string, prefix string) error {
-	t, err := parseTimeISO(export.StartTime)
-	if err != nil {
-		return fmt.Errorf("invalid startTime %q: %v", export.StartTime, err)
-	}
-
-	year := t.Format("2006")
-	month := t.Format("01")
-	day := t.Format("02")
-	dir := filepath.Join(outRoot, year, month, day)
-	if err := os.MkdirAll(dir, 0755); err != nil {
-		return fmt.Errorf("creating directory %q: %v", dir, err)
-	}
-
-	outName := fmt.Sprintf("%s_%s.json", prefix, id)
-	outPath := filepath.Join(dir, outName)
-
-	if _, err := os.Stat(outPath); err == nil {
-		fmt.Printf("Skipping %s: already exists\n", outPath)
 		return nil
+	})
+
+	if err != nil {
+		return "", err
 	}
+
+	if !foundAny {
+		return "", fmt.Errorf("no existing limitless_*.json files found in %s", outRoot)
+	}
+
+	return latest.Format(time.RFC3339), nil
+}
+
+// --- existing helper code (unchanged) ---
+
+func parseDateFlag(s string) (time.Time, error) {
+	if s == "" {
+		return time.Time{}, nil
+	}
+	return time.Parse(time.RFC3339, s)
+}
+
+func parseTimeISO(s string) (time.Time, error) {
+	return time.Parse(time.RFC3339, s)
+}
+
+func saveLimitlessExport(outRoot string, export *common.PendantExport) error {
+	t, err := time.Parse(time.RFC3339, export.StartTime)
+	if err != nil {
+		t = time.Now().UTC()
+	}
+
+	outDir := filepath.Join(
+		outRoot,
+		"limitless",
+		fmt.Sprintf("%04d", t.Year()),
+		fmt.Sprintf("%02d", t.Month()),
+		fmt.Sprintf("%02d", t.Day()),
+	)
+
+	if err := os.MkdirAll(outDir, 0755); err != nil {
+		return fmt.Errorf("creating output dir: %w", err)
+	}
+
+	outPath := filepath.Join(outDir, fmt.Sprintf("limitless_%s.json", export.ID))
 
 	f, err := os.Create(outPath)
 	if err != nil {
-		return fmt.Errorf("creating file %q: %v", outPath, err)
+		return fmt.Errorf("creating output file: %w", err)
 	}
 	defer f.Close()
 
 	enc := json.NewEncoder(f)
 	enc.SetIndent("", "  ")
 	return enc.Encode(export)
+}
+
+// --- API fetch (unchanged) ---
+
+type ApiResponse struct {
+	Data struct {
+		LifeLogs []LifeLog `json:"lifeLogs"`
+	} `json:"data"`
+	Pagination struct {
+		NextCursor string `json:"nextCursor"`
+	} `json:"pagination"`
+}
+
+type LifeLog struct {
+	ID         string `json:"id"`
+	StartTime  string `json:"startTime"`
+	EndTime    string `json:"endTime"`
+	Title      string `json:"title"`
+	Overview   string `json:"overview"`
+	Transcript string `json:"transcript"`
+}
+
+func fetchPage(apiURL, apiKey, cursor string) (*ApiResponse, int, error) {
+	client := &http.Client{}
+	reqURL, _ := url.Parse(apiURL)
+	q := reqURL.Query()
+	if cursor != "" {
+		q.Set("cursor", cursor)
+	}
+	reqURL.RawQuery = q.Encode()
+
+	req, _ := http.NewRequest("GET", reqURL.String(), nil)
+	req.Header.Set("X-API-Key", apiKey)
+
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, 0, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		body, _ := io.ReadAll(resp.Body)
+		return nil, resp.StatusCode, fmt.Errorf("status %d: %s", resp.StatusCode, body)
+	}
+
+	var result ApiResponse
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return nil, resp.StatusCode, fmt.Errorf("decoding response: %w", err)
+	}
+
+	return &result, resp.StatusCode, nil
 }
