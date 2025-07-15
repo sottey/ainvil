@@ -47,5 +47,6 @@ Desktop.ini
 # sensitive files
 config.json
 export/**
-source/**
+source/omi/**
+source/bee/**
 out/**
