@@ -15,7 +15,7 @@ var limitlessCmd = &cobra.Command{
 		apiKey := viper.GetString("token")
 		apiURL := viper.GetString("url")
 		start := viper.GetString("start")
-		outputDir := viper.GetString("output")
+		outputDir := viper.GetString("out")
 
 		err := common.ParseLimitlessData(apiKey, apiURL, start, outputDir)
 
@@ -33,9 +33,9 @@ func init() {
 	limitlessCmd.Flags().StringP("token", "t", "", "API token for Limitless")
 	limitlessCmd.Flags().StringP("url", "u", "", "API base URL")
 	limitlessCmd.Flags().StringP("start", "s", "", "Optional start date (YYYY-MM-DD)")
-	limitlessCmd.Flags().StringP("output", "o", "out", "Output directory")
+	limitlessCmd.Flags().StringP("out", "o", "out", "Output directory")
 	viper.BindPFlag("token", limitlessCmd.Flags().Lookup("token"))
 	viper.BindPFlag("url", limitlessCmd.Flags().Lookup("url"))
 	viper.BindPFlag("start", limitlessCmd.Flags().Lookup("start"))
-	viper.BindPFlag("output", limitlessCmd.Flags().Lookup("output"))
+	viper.BindPFlag("out", limitlessCmd.Flags().Lookup("out"))
 }
