@@ -32,7 +32,7 @@ import (
 	"time"
 )
 
-const currentVersion = "Ainvil 2.0.0"
+const currentVersion = "Ainvil 2.1.0"
 
 func FindMostRecentSavedDate(outRoot string) (string, error) {
 	var latest time.Time
