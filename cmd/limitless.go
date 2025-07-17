@@ -1,236 +1,41 @@
-/*
-Copyright © 2025 sottey
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
-*/
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
-	"net/url"
-	"os"
-	"path/filepath"
-	"sort"
-	"time"
 
 	"github.com/sottey/ainvil/common"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var limitlessCmd = &cobra.Command{
 	Use:   "limitless",
-	Short: "Fetch and export from Limitless API to standardized format",
-	Run: func(cmd *cobra.Command, args []string) {
-		apiKey, _ := cmd.Flags().GetString("token")
-		apiURL, _ := cmd.Flags().GetString("url")
-		startStr, _ := cmd.Flags().GetString("start")
-		endStr, _ := cmd.Flags().GetString("end")
-		outRoot, _ := cmd.Flags().GetString("out")
+	Short: "Import data from Limitless API",
+	RunE: func(cmd *cobra.Command, args []string) error {
+		apiKey := viper.GetString("token")
+		apiURL := viper.GetString("url")
+		start := viper.GetString("start")
+		outputDir := viper.GetString("output")
 
-		if apiKey == "" || apiURL == "" {
-			fmt.Println("Error: --token and --url are required")
-			cmd.Usage()
-			os.Exit(1)
-		}
+		err := common.ParseLimitlessData(apiKey, apiURL, start, outputDir)
 
-		// Auto-detect start date if none specified
-		if startStr == "" {
-			fmt.Println("No --start provided. Scanning existing output to determine latest saved date...")
-			detected, err := common.FindMostRecentSavedDate(outRoot)
-			if err != nil {
-				fmt.Printf("Error detecting last saved date: %v\n", err)
-				os.Exit(1)
-			}
-			startStr = detected
-			fmt.Printf("Auto-selected --start: %s\n", startStr)
-		}
-
-		startDate, err := common.ParseDateFlag(startStr)
 		if err != nil {
-			fmt.Println("Error parsing --start:", err)
-			os.Exit(1)
+			fmt.Println("Error handling Limitless data: ", err)
+		} else {
+			fmt.Println("Done.")
 		}
-		endDate, err := common.ParseDateFlag(endStr)
-		if err != nil {
-			fmt.Println("Error parsing --end:", err)
-			os.Exit(1)
-		}
-
-		cursor := ""
-		totalSaved := 0
-		pageNum := 1
-		hadFirst429 := false
-
-		for {
-			fmt.Printf("Fetching page %d...\n", pageNum)
-			apiResp, status, err := fetchPage(apiURL, apiKey, cursor)
-			if err != nil && status == 429 {
-				if !hadFirst429 {
-					fmt.Println("Received 429 Too Many Requests. Waiting 30 seconds before retrying...")
-					time.Sleep(30 * time.Second)
-					hadFirst429 = true
-					continue
-				} else {
-					fmt.Println("Received 429 Too Many Requests again. Aborting.")
-					os.Exit(1)
-				}
-			}
-			if err != nil {
-				fmt.Printf("Error fetching page %d: %v\n", pageNum, err)
-				os.Exit(1)
-			}
-
-			hadFirst429 = false
-
-			logs := apiResp.Data.LifeLogs
-			count := len(logs)
-			fmt.Printf("Lifelog count for page %d: %d\n", pageNum, count)
-
-			// sort logs by StartTime
-			sort.Slice(logs, func(i, j int) bool {
-				return logs[i].StartTime < logs[j].StartTime
-			})
-
-			savedThisPage := 0
-			for _, ll := range logs {
-				startT, err := common.ParseTimeISO(ll.StartTime)
-				if err != nil {
-					fmt.Printf("Skipping %q: invalid timestamp\n", ll.StartTime)
-					continue
-				}
-
-				// Apply date filtering
-				if !startT.IsZero() && startT.Before(startDate) {
-					continue
-				}
-				if !endDate.IsZero() && startT.After(endDate) {
-					continue
-				}
-
-				// Build PendantExport
-				export := &common.PendantExport{
-					ID:            ll.ID,
-					SourceType:    "limitless",
-					StartTime:     ll.StartTime,
-					EndTime:       ll.EndTime,
-					Title:         ll.Title,
-					Overview:      ll.Overview,
-					Transcript:    ll.Transcript,
-					ExportDate:    time.Now().UTC().Format(time.RFC3339),
-					ExportVersion: common.GetVersion(),
-					SourceFile:    "limitlessAPI",
-					Contents: []common.ContentBlock{
-						{Type: "heading1", Content: ll.Title},
-						{Type: "heading2", Content: ll.Overview},
-						{Type: "paragraph", Content: ll.Transcript},
-					},
-				}
-
-				if err := saveLimitlessExport(outRoot, export); err != nil {
-					fmt.Printf("Error saving %s: %v\n", export.ID, err)
-				} else {
-					fmt.Printf("Saved %s\n", export.ID)
-					savedThisPage++
-					totalSaved++
-				}
-			}
-
-			if apiResp.Pagination.NextCursor == "" {
-				break
-			}
-			cursor = apiResp.Pagination.NextCursor
-			pageNum++
-		}
-
-		fmt.Printf("Done. %d lifelogs saved.\n", totalSaved)
+		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(limitlessCmd)
-	limitlessCmd.Flags().String("token", "", "API token (required)")
-	limitlessCmd.Flags().String("url", "", "Base API URL (required)")
-	limitlessCmd.Flags().String("start", "", "Start date (RFC3339) or auto-detected if omitted")
-	limitlessCmd.Flags().String("end", "", "End date (RFC3339, optional)")
-	limitlessCmd.Flags().String("out", "./out", "Output root directory")
-}
-
-func saveLimitlessExport(outRoot string, export *common.PendantExport) error {
-	t, err := time.Parse(time.RFC3339, export.StartTime)
-	if err != nil {
-		t = time.Now().UTC()
-	}
-
-	outDir := filepath.Join(
-		outRoot,
-		fmt.Sprintf("%04d", t.Year()),
-		fmt.Sprintf("%02d", t.Month()),
-		fmt.Sprintf("%02d", t.Day()),
-	)
-
-	if err := os.MkdirAll(outDir, 0755); err != nil {
-		return fmt.Errorf("creating output dir: %w", err)
-	}
-
-	outPath := filepath.Join(outDir, fmt.Sprintf("limitless_%s.json", export.ID))
-
-	f, err := os.Create(outPath)
-	if err != nil {
-		return fmt.Errorf("creating output file: %w", err)
-	}
-	defer f.Close()
-
-	enc := json.NewEncoder(f)
-	enc.SetIndent("", "  ")
-	return enc.Encode(export)
-}
-
-func fetchPage(apiURL, apiKey, cursor string) (*common.LimitlessApiResponse, int, error) {
-	client := &http.Client{}
-	reqURL, _ := url.Parse(apiURL)
-	q := reqURL.Query()
-	if cursor != "" {
-		q.Set("cursor", cursor)
-	}
-	reqURL.RawQuery = q.Encode()
-
-	req, _ := http.NewRequest("GET", reqURL.String(), nil)
-	req.Header.Set("X-API-Key", apiKey)
-
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, 0, err
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		body, _ := io.ReadAll(resp.Body)
-		return nil, resp.StatusCode, fmt.Errorf("status %d: %s", resp.StatusCode, body)
-	}
-
-	var result common.LimitlessApiResponse
-	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
-		return nil, resp.StatusCode, fmt.Errorf("decoding response: %w", err)
-	}
-
-	return &result, resp.StatusCode, nil
+	limitlessCmd.Flags().StringP("token", "t", "", "API token for Limitless")
+	limitlessCmd.Flags().StringP("url", "u", "", "API base URL")
+	limitlessCmd.Flags().StringP("start", "s", "", "Optional start date (YYYY-MM-DD)")
+	limitlessCmd.Flags().StringP("output", "o", "out", "Output directory")
+	viper.BindPFlag("token", limitlessCmd.Flags().Lookup("token"))
+	viper.BindPFlag("url", limitlessCmd.Flags().Lookup("url"))
+	viper.BindPFlag("start", limitlessCmd.Flags().Lookup("start"))
+	viper.BindPFlag("output", limitlessCmd.Flags().Lookup("output"))
 }

@@ -30,7 +30,6 @@ import (
 	"time"
 )
 
-// ParseBeeFile reads a Bee pendant export and normalizes time to RFC3339
 func ParseBeeFile(path string) (*PendantExport, error) {
 	file, err := os.Open(path)
 	if err != nil {
@@ -51,6 +50,7 @@ func ParseBeeFile(path string) (*PendantExport, error) {
 	section := ""
 
 	scanner := bufio.NewScanner(file)
+
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if line == "" {
@@ -58,19 +58,19 @@ func ParseBeeFile(path string) (*PendantExport, error) {
 		}
 
 		switch {
-		case strings.HasPrefix(line, "Start Time: "):
-			raw := strings.TrimSpace(strings.TrimPrefix(line, "Start Time: "))
-			startTime = parseBeeTimestamp(raw)
+		case strings.HasPrefix(line, "Start Time:"):
+			startTime = parseHeaderValue(scanner, line, "Start Time:")
+			startTime = parseBeeTimestamp(startTime)
 
-		case strings.HasPrefix(line, "End Time: "):
-			raw := strings.TrimSpace(strings.TrimPrefix(line, "End Time: "))
-			endTime = parseBeeTimestamp(raw)
+		case strings.HasPrefix(line, "End Time:"):
+			endTime = parseHeaderValue(scanner, line, "End Time:")
+			endTime = parseBeeTimestamp(endTime)
 
 		case strings.HasPrefix(line, "Device Type:"):
-			deviceType = strings.TrimSpace(strings.TrimPrefix(line, "Device Type:"))
+			deviceType = parseHeaderValue(scanner, line, "Device Type:")
 
 		case strings.HasPrefix(line, "Short Summary:"):
-			shortSummary = strings.TrimSpace(strings.TrimPrefix(line, "Short Summary:"))
+			shortSummary = parseHeaderValue(scanner, line, "Short Summary:")
 
 		case line == "Summary:":
 			section = "summary"
@@ -82,13 +82,13 @@ func ParseBeeFile(path string) (*PendantExport, error) {
 			section = "location"
 
 		case strings.HasPrefix(line, "Latitude:"):
-			latitude = strings.TrimSpace(strings.TrimPrefix(line, "Latitude:"))
+			latitude = parseHeaderValue(scanner, line, "Latitude:")
 
 		case strings.HasPrefix(line, "Longitude:"):
-			longitude = strings.TrimSpace(strings.TrimPrefix(line, "Longitude:"))
+			longitude = parseHeaderValue(scanner, line, "Longitude:")
 
 		case strings.HasPrefix(line, "bAddress:"):
-			address = strings.TrimSpace(strings.TrimPrefix(line, "bAddress:"))
+			address = parseHeaderValue(scanner, line, "bAddress:")
 
 		default:
 			switch section {
@@ -139,7 +139,7 @@ func ParseBeeFile(path string) (*PendantExport, error) {
 		Title:      shortSummary,
 		Overview:   strings.Join(summaryLines, "\n"),
 		Transcript: strings.Join(transcriptionLines, "\n"),
-		Contents: []ContentBlock{
+		Contents: []ContentEntry{
 			{Type: "heading1", Content: shortSummary},
 			{Type: "heading2", Content: strings.Join(summaryLines, "\n")},
 			{Type: "paragraph", Content: strings.Join(transcriptionLines, "\n")},
@@ -148,7 +148,6 @@ func ParseBeeFile(path string) (*PendantExport, error) {
 	}, nil
 }
 
-// parseBeeTimestamp converts Bee's "Jul 7, 2025 at 10:14 AM" to RFC3339
 func parseBeeTimestamp(raw string) string {
 	layout := "Jan 2, 2006 at 3:04 PM"
 	t, err := time.Parse(layout, raw)
@@ -159,48 +158,13 @@ func parseBeeTimestamp(raw string) string {
 	return t.Format(time.RFC3339)
 }
 
-// ParseOmiFile reads an Omi pendant export (currently passes timestamp as-is)
-func ParseOmiFile(path string) (*PendantExport, error) {
-	file, err := os.Open(path)
-	if err != nil {
-		return nil, fmt.Errorf("opening file: %v", err)
+func parseHeaderValue(scanner *bufio.Scanner, line, prefix string) string {
+	remainder := strings.TrimSpace(strings.TrimPrefix(line, prefix))
+	if remainder != "" {
+		return remainder
 	}
-	defer file.Close()
-
-	var timestamp, title, overview string
-	var transcriptLines []string
-	inTranscript := false
-
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := strings.TrimSpace(scanner.Text())
-
-		if strings.HasPrefix(line, "Memory from ") {
-			timestamp = strings.TrimSpace(strings.TrimPrefix(line, "Memory from "))
-		} else if strings.HasPrefix(line, "Title: ") {
-			title = strings.TrimSpace(strings.TrimPrefix(line, "Title: "))
-		} else if strings.HasPrefix(line, "Overview: ") {
-			overview = strings.TrimSpace(strings.TrimPrefix(line, "Overview: "))
-		} else if line == "Transcript:" {
-			inTranscript = true
-		} else if inTranscript {
-			transcriptLines = append(transcriptLines, line)
-		}
+	if scanner.Scan() {
+		return strings.TrimSpace(scanner.Text())
 	}
-
-	if err := scanner.Err(); err != nil {
-		return nil, fmt.Errorf("scanning file: %v", err)
-	}
-
-	return &PendantExport{
-		StartTime:  timestamp,
-		Title:      title,
-		Overview:   overview,
-		Transcript: strings.Join(transcriptLines, "\n"),
-		Contents: []ContentBlock{
-			{Type: "heading1", Content: title},
-			{Type: "heading2", Content: overview},
-			{Type: "paragraph", Content: strings.Join(transcriptLines, "\n")},
-		},
-	}, nil
+	return ""
 }

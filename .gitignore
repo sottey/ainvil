@@ -49,4 +49,5 @@ config.json
 export/**
 source/omi/**
 source/bee/**
+source/chatgpt/**
 out/**

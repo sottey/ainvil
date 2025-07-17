@@ -22,6 +22,8 @@ THE SOFTWARE.
 package common
 
 import (
+	"crypto/rand"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -95,4 +97,14 @@ func ParseTimeISO(s string) (time.Time, error) {
 
 func GetVersion() string {
 	return currentVersion
+}
+
+func GenerateID() string {
+	b := make([]byte, 12)
+	_, err := rand.Read(b)
+	if err != nil {
+		// fallback if needed
+		return "fallbackid"
+	}
+	return hex.EncodeToString(b)
 }

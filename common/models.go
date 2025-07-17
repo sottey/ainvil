@@ -21,60 +21,33 @@ THE SOFTWARE.
 */
 package common
 
-import "encoding/json"
-
-type ContentBlock struct {
-	Type    string `json:"type"`
-	Content string `json:"content"`
-}
+import (
+	"encoding/json"
+	"time"
+)
 
 type PendantExport struct {
 	ID            string          `json:"id"`
 	SourceType    string          `json:"sourceType"`
 	StartTime     string          `json:"startTime"`
 	EndTime       string          `json:"endTime"`
+	Title         string          `json:"title"`
+	Overview      string          `json:"overview"`
+	Transcript    string          `json:"transcript"`
+	Contents      []ContentEntry  `json:"contents"`
+	Markdown      string          `json:"markdown,omitempty"`
+	IsStarred     bool            `json:"isStarred,omitempty"`
+	UpdatedAt     string          `json:"updatedAt,omitempty"`
+	CreatedAt     string          `json:"createdAt,omitempty"`
+	ExportDate    string          `json:"exportDate"`
+	ExportVersion string          `json:"exportVersion"`
+	SourceFile    string          `json:"sourceFile"`
 	DeviceType    string          `json:"deviceType,omitempty"`
 	Latitude      string          `json:"latitude,omitempty"`
 	Longitude     string          `json:"longitude,omitempty"`
 	Address       string          `json:"address,omitempty"`
-	Title         string          `json:"title"`
-	Overview      string          `json:"overview"`
-	Transcript    string          `json:"transcript"`
-	Contents      []ContentBlock  `json:"contents"`
-	ExportDate    string          `json:"exportDate"`
-	ExportVersion string          `json:"exportVersion"`
-	SourceFile    string          `json:"sourceFile"`
 	Raw           json.RawMessage `json:"raw"`
 }
-
-/*
-type ContentBlock struct {
-	Type    string `json:"type"`
-	Content string `json:"content"`
-}
-
-type PendantExport struct {
-	ID         string `json:"id"`
-	SourceType string `json:"sourceType"`
-	StartTime  string `json:"startTime"`
-	EndTime    string `json:"endTime,omitempty"`
-
-	ExportDate    string `json:"exportDate"`
-	ExportVersion string `json:"exportVersion"`
-	SourceFile    string `json:"sourceFile"`
-
-	Tags      []string `json:"tags,omitempty"`
-	CreatedAt string   `json:"createdAt,omitempty"`
-	UpdatedAt string   `json:"updatedAt,omitempty"`
-
-	Title      string         `json:"title,omitempty"`
-	Overview   string         `json:"overview,omitempty"`
-	Transcript string         `json:"transcript,omitempty"`
-	Contents   []ContentBlock `json:"contents,omitempty"`
-
-	Raw json.RawMessage `json:"raw"`
-}
-*/
 
 type LimitlessApiResponse struct {
 	Data struct {
@@ -86,12 +59,18 @@ type LimitlessApiResponse struct {
 }
 
 type LimitlessLifeLog struct {
-	ID         string `json:"id"`
-	StartTime  string `json:"startTime"`
-	EndTime    string `json:"endTime"`
-	Title      string `json:"title"`
-	Overview   string `json:"overview"`
-	Transcript string `json:"transcript"`
+	ID         string         `json:"id"`
+	StartTime  string         `json:"startTime"`
+	Summary    string         `json:"summary"`
+	Markdown   string         `json:"markdown"`
+	UpdatedAt  string         `json:"updatedAt"`
+	EndTime    string         `json:"endTime"`
+	IsStarred  bool           `json:"isStarred"`
+	Title      string         `json:"title"`
+	Overview   string         `json:"overview"`
+	Transcript string         `json:"transcript"`
+	Contents   []ContentEntry `json:"contents"`
+	Raw        json.RawMessage
 }
 
 type BeeParsed struct {
@@ -104,4 +83,32 @@ type BeeParsed struct {
 	Latitude           string
 	Longitude          string
 	Address            string
+}
+
+type AinvilExport struct {
+	ID            string         `json:"id"`
+	SourceType    string         `json:"sourceType"`
+	Title         string         `json:"title"`
+	StartTime     time.Time      `json:"startTime"`
+	EndTime       time.Time      `json:"endTime"`
+	Overview      string         `json:"overview"`
+	Transcript    string         `json:"transcript"`
+	Contents      []ContentEntry `json:"contents"`
+	ExportDate    time.Time      `json:"exportDate"`
+	ExportVersion string         `json:"exportVersion"`
+	SourceFile    string         `json:"sourceFile"`
+	Raw           any            `json:"raw"`
+	Markdown      string         `json:"markdown,omitempty"`
+}
+
+type ContentEntry struct {
+	Type    string `json:"type"`
+	Content string `json:"content"`
+
+	SpeakerName       string `json:"speakerName,omitempty"`
+	SpeakerIdentifier string `json:"speakerIdentifier,omitempty"`
+	StartTime         string `json:"startTime,omitempty"`
+	EndTime           string `json:"endTime,omitempty"`
+	StartOffsetMs     int    `json:"startOffsetMs,omitempty"`
+	EndOffsetMs       int    `json:"endOffsetMs,omitempty"`
 }
