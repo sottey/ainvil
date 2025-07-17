@@ -8,6 +8,8 @@ It supports merging different export formats into a consistent JSON structure fo
 
 ## ✨ Features
 
+- Import **ChatGPT meeting transcripts** from plain `.txt` files
+
 - Process text exports from **Omi** and **Bee** pendant formats (more to come!)
 - Fetch and export lifelogs from the **Limitless** API
 - Unified, consistent JSON schema
@@ -18,6 +20,10 @@ It supports merging different export formats into a consistent JSON structure fo
 ---
 
 ## 🗂️ Getting source data
+
+**CHATGPT**
+> You can export transcripts from ChatGPT meeting recordings as plain `.txt` files. Just drop them into a folder and run `ainvil chatgpt --source path/to/folder --out path/to/output`.
+
 
 **LIMITLESS**
 
@@ -34,17 +40,30 @@ It supports merging different export formats into a consistent JSON structure fo
 ## 📦 Folder Structure
 
 ```
-ainvil/
-  main.go
-  cmd/
-    root.go
-    omi.go
-    bee.go
-    limitless.go
-  common/
-    processor.go
-  out/
+├── LICENSE
+├── README.md
+├── cmd
+│   ├── bee.go
+│   ├── chatgpt.go
+│   ├── limitless.go
+│   ├── omi.go
+│   ├── root.go
+│   └── version.go
+├── common
+│   ├── models.go
+│   ├── parser_bee.go
+│   ├── parser_chatgpt.go
+│   ├── parser_limitless.go
+│   ├── parser_omi.go
+│   ├── processor.go
+│   └── utils.go
+├── go.mod
+├── go.sum
+├── main.go
+├─ out/
     (generated JSON output)
+├─ source/
+    (source files)
 ```
 
 ---
@@ -54,7 +73,7 @@ ainvil/
 **Clone the repo:**
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/ainvil.git
+git clone https://github.com/sottey/ainvil.git
 cd ainvil
 ```
 
@@ -67,7 +86,7 @@ go build -o ainvil
 Or install directly:
 
 ```bash
-go install github.com/YOUR_USERNAME/ainvil@latest
+go install github.com/sottey/ainvil@latest
 ```
 
 ---
@@ -186,7 +205,7 @@ Each JSON contains a standardized structure:
     ...
   ],
   "exportDate": "...",
-  "exportVersion": "ainvil 1.0.0",
+  "exportVersion": "ainvil 2.0.0",
   "sourceFile": "..."
 }
 ```
