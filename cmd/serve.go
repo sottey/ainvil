@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strings"
 
+	"github.com/sottey/ainvil/common"
 	"github.com/spf13/cobra"
 )
 
@@ -100,8 +101,7 @@ var serveCmd = &cobra.Command{
 }
 
 func init() {
-	flagSet := serveCmd.Flags()
-	flagSet.String("out", "./out", "Output directory to serve files from")
-	flagSet.Int("port", 8080, "Port to serve on")
+	common.AddCommonServeFlags(serveCmd)
+	common.AddUniversalFlags(serveCmd)
 	rootCmd.AddCommand(serveCmd)
 }

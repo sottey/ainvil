@@ -45,7 +45,7 @@ var omiCmd = &cobra.Command{
 }
 
 func init() {
+	common.AddCommonFileFlags(omiCmd)
+	common.AddUniversalFlags(omiCmd)
 	rootCmd.AddCommand(omiCmd)
-	omiCmd.Flags().String("source", "", "Directory containing Omi .txt files (required)")
-	omiCmd.Flags().String("out", "./out", "Output root directory")
 }

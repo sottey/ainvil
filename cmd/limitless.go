@@ -50,13 +50,7 @@ var limitlessCmd = &cobra.Command{
 }
 
 func init() {
+	common.AddCommonAPIFlags(limitlessCmd)
+	common.AddUniversalFlags(limitlessCmd)
 	rootCmd.AddCommand(limitlessCmd)
-	limitlessCmd.Flags().StringP("token", "t", "", "API token for Limitless")
-	limitlessCmd.Flags().StringP("url", "u", "", "API base URL")
-	limitlessCmd.Flags().StringP("start", "s", "", "Optional start date (YYYY-MM-DD)")
-	limitlessCmd.Flags().StringP("out", "o", "out", "Output directory")
-	viper.BindPFlag("token", limitlessCmd.Flags().Lookup("token"))
-	viper.BindPFlag("url", limitlessCmd.Flags().Lookup("url"))
-	viper.BindPFlag("start", limitlessCmd.Flags().Lookup("start"))
-	viper.BindPFlag("out", limitlessCmd.Flags().Lookup("out"))
 }

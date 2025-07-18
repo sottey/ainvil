@@ -46,7 +46,7 @@ var beeCmd = &cobra.Command{
 }
 
 func init() {
+	common.AddCommonFileFlags(beeCmd)
+	common.AddUniversalFlags(beeCmd)
 	rootCmd.AddCommand(beeCmd)
-	beeCmd.Flags().String("source", "", "Directory containing Bee .txt files (required)")
-	beeCmd.Flags().String("out", "./out", "Output root directory")
 }

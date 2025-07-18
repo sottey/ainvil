@@ -49,7 +49,7 @@ var ChatGPTCmd = &cobra.Command{
 }
 
 func init() {
-	ChatGPTCmd.Flags().String("source", "", "Directory of ChatGPT transcript files")
-	ChatGPTCmd.Flags().String("out", "", "Directory to save normalized files")
+	common.AddCommonFileFlags(ChatGPTCmd)
+	common.AddUniversalFlags(ChatGPTCmd)
 	rootCmd.AddCommand(ChatGPTCmd)
 }

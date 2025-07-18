@@ -30,6 +30,9 @@ import (
 	"path/filepath"
 	"strings"
 	"time"
+
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 const currentVersion = "Ainvil 2.1.0"
@@ -107,4 +110,27 @@ func GenerateID() string {
 		return "fallbackid"
 	}
 	return hex.EncodeToString(b)
+}
+
+func AddCommonFileFlags(cmd *cobra.Command) {
+	cmd.Flags().String("source", "", "Directory containing input files")
+	viper.BindPFlags(cmd.Flags())
+}
+
+func AddCommonAPIFlags(cmd *cobra.Command) {
+	cmd.Flags().StringP("token", "t", "", "API token")
+	cmd.Flags().StringP("url", "u", "", "API base URL")
+	cmd.Flags().StringP("start", "s", "", "Start date (YYYY-MM-DD)")
+	cmd.Flags().StringP("end", "e", "", "End date (YYYY-MM-DD)")
+	viper.BindPFlags(cmd.Flags())
+}
+
+func AddCommonServeFlags(cmd *cobra.Command) {
+	cmd.Flags().Int("port", 8080, "Port to serve on")
+	viper.BindPFlags(cmd.Flags())
+}
+
+func AddUniversalFlags(cmd *cobra.Command) {
+	cmd.Flags().String("out", "./out", "Output directory to serve files from")
+	viper.BindPFlags(cmd.Flags())
 }
