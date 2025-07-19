@@ -133,7 +133,7 @@ func ParseLimitlessData(apiKey, apiURL, start, outputDir string) error {
 		fmt.Printf("Found %d lifelogs\n", len(dataList))
 
 		for _, raw := range dataList {
-			var item LimitlessLifeLog
+			var item LimitlessLifelog
 			if err := json.Unmarshal(raw, &item); err != nil {
 				fmt.Println("Skipping malformed lifelog:", err)
 				continue

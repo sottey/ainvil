@@ -49,28 +49,47 @@ type PendantExport struct {
 	Raw           json.RawMessage `json:"raw"`
 }
 
-type LimitlessApiResponse struct {
-	Data struct {
-		LifeLogs []LimitlessLifeLog `json:"lifeLogs"`
-	} `json:"data"`
-	Pagination struct {
-		NextCursor string `json:"nextCursor"`
-	} `json:"pagination"`
+type LimitlessResponse struct {
+	Data []LimitlessLifelog `json:"data"`
+	Meta Meta               `json:"meta"`
 }
 
-type LimitlessLifeLog struct {
+type LimitlessLifelog struct {
 	ID         string         `json:"id"`
 	StartTime  string         `json:"startTime"`
-	Summary    string         `json:"summary"`
+	EndTime    string         `json:"endTime"`
 	Markdown   string         `json:"markdown"`
 	UpdatedAt  string         `json:"updatedAt"`
-	EndTime    string         `json:"endTime"`
-	IsStarred  bool           `json:"isStarred"`
 	Title      string         `json:"title"`
-	Overview   string         `json:"overview"`
+	Summary    string         `json:"summary"`
+	IsStarred  bool           `json:"isStarred"`
 	Transcript string         `json:"transcript"`
 	Contents   []ContentEntry `json:"contents"`
+	Text       string         `json:"text"`
+	Type       string         `json:"type"`
+	Location   Location       `json:"location"`
+	Tags       []string       `json:"tags"`
+	Source     Source         `json:"source"`
 	Raw        json.RawMessage
+}
+
+type Location struct {
+	Latitude  string `json:"latitude"`
+	Longitude string `json:"longitude"`
+	Address   string `json:"address"`
+}
+
+type Source struct {
+	DeviceType string `json:"deviceType"`
+	SourceType string `json:"sourceType"`
+}
+
+type Meta struct {
+	Lifelogs MetaLifelogs `json:"lifelogs"`
+}
+
+type MetaLifelogs struct {
+	NextCursor string `json:"nextCursor"`
 }
 
 type BeeParsed struct {
