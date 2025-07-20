@@ -52,3 +52,5 @@ source/bee/**
 source/chatgpt/**
 out/**
 prompt.txt
+tools/ainvil_to_db/ainvil_to_db
+tools/ainvil_to_db/lifelogs.db
